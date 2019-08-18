@@ -15,7 +15,7 @@
         <Label Name="lblDate" Content="Date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,140,0,0" FontSize="14"/>
         <DatePicker Name="dpDate" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,138,0,0" Width="150" Height="25" FontSize="14" SelectedDateFormat="Short"/>
         <Label Name="lblStockPriceOpen" Content="Price Open" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,170,0,0" FontSize="14"/>
-        <TextBox Name="tbStockPriceOpen" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,170,0,0" TextWrapping="Wrap" Width="150" Height="23" FontSize="14"/>
+        <TextBox Name="tbStockPriceOpen" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,170,0,0" TextWrapping="Wrap" Width="150" Height="23" FontSize="14" PreviewTextInput="PreviewTextInput"/>
         <Label Name="lblStockPriceHigh" Content="Price High" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,200,0,0" FontSize="14"/>
         <TextBox Name="tbStockPriceHigh" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,200,0,0" TextWrapping="Wrap" FontSize="14" Height="23" Width="150"/>
         <Label Name="lblStockPriceLow" Content="Price Low" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,230,0,0" FontSize="14"/>
@@ -27,6 +27,6 @@
         <Label Name="lblStockPriceAdjClose" Content="Price Adjusted Close" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,320,0,0" FontSize="14"/>
         <TextBox Name="tbStockPriceAdjClose" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,320,0,0" Height="23" Width="150"/>
         <Button Name="btnSubmit" Content="Submit" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,360,0,0" FontSize="14" Width="75" Click="BtnSubmit_Click"/>
-        <Button Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,360,0,0" FontSize="14" Width="75"/>
+        <Button Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,360,0,0" FontSize="14" Width="75" Click="BtnCancel_Click"/>
     </Grid>
 </Window>

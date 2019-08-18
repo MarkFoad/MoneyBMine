@@ -5,6 +5,12 @@ VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBM.WPF", "MBM.WPF\MBM.WPF.csproj", "{A2926406-CB2E-4F8D-AB31-005FF751549B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBM.BL", "MBM.BL\MBM.BL.csproj", "{2D66A2DB-74D9-4E4B-BBF4-763C5B5D250A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{75C11F0B-072B-4445-909B-78760F108F90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBM.WPF.UnitTests", "MBM.WPF.UnitTests\MBM.WPF.UnitTests.csproj", "{02ED32D4-159C-4A59-A7C2-C2576AEB6283}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +21,20 @@ Global
 		{A2926406-CB2E-4F8D-AB31-005FF751549B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2926406-CB2E-4F8D-AB31-005FF751549B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2926406-CB2E-4F8D-AB31-005FF751549B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D66A2DB-74D9-4E4B-BBF4-763C5B5D250A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D66A2DB-74D9-4E4B-BBF4-763C5B5D250A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D66A2DB-74D9-4E4B-BBF4-763C5B5D250A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D66A2DB-74D9-4E4B-BBF4-763C5B5D250A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02ED32D4-159C-4A59-A7C2-C2576AEB6283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02ED32D4-159C-4A59-A7C2-C2576AEB6283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02ED32D4-159C-4A59-A7C2-C2576AEB6283}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02ED32D4-159C-4A59-A7C2-C2576AEB6283}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02ED32D4-159C-4A59-A7C2-C2576AEB6283} = {75C11F0B-072B-4445-909B-78760F108F90}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64A4CF8B-5C76-4B28-9801-4C4D960999CE}

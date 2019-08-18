@@ -5,17 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MBM.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="800" Width="1200">
     <Grid>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="50" Margin="10,10,0,0" VerticalAlignment="Top" Width="770"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="50" Margin="10,10,0,0" VerticalAlignment="Top" Width="1170"/>
         <Menu HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,15,0,0">
             <MenuItem Name="miFile" Header="File" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Height="30" FontSize="14" FontWeight="Bold">
                 <MenuItem Name="miAddRecord" Header="New Record" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" FontSize="14" FontWeight="Bold"/>
             </MenuItem>
             
             
-            <MenuItem Name="miExit" Header="Exit" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Height="30" Width="50"  Background="OrangeRed" FontSize="14" FontWeight="Bold"/>
+            <MenuItem Name="miExit" Header="Exit" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Height="30" Width="50"  Background="OrangeRed" FontSize="14" FontWeight="Bold" Click="MiExit_Click"/>
         </Menu>
+        <DataGrid x:Name="dgDisplay" HorizontalAlignment="Left" Height="650" Margin="10,100,0,0" VerticalAlignment="Top" Width="1170"/>        <Button Name="btnGetAll" Content="Get All" HorizontalAlignment="Left" Margin="648,75,0,0" VerticalAlignment="Top" Width="75" FontSize="14" Click="BtnGetAll_Click"/>
 
     </Grid>
 </Window>

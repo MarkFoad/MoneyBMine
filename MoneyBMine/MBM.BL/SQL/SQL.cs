@@ -19,7 +19,7 @@ namespace MBM.BL.SQL
         /// <summary>
         /// Gets or sets the- table name to be used.
         /// </summary>
-        public string TableName { get; set; }
+        private string TableName = "NYSEData";
 
         /// <summary>
         /// Adds a new record to the SQL database
@@ -57,5 +57,46 @@ namespace MBM.BL.SQL
             connection.Close();
 
         }
+
+        /// <summary>
+        /// Gets a list of all records
+        /// </summary>
+        /// <returns>Enumerable List of all records</returns>
+        public async Task<List<Stock>> GetAll()
+        {
+            List<Stock> stockList = new List<Stock>();
+            string query  = $"Select * from [MoneyBMine].[dbo].[{TableName}]";
+            SqlConnection connection = new SqlConnection(sqlConnection);
+            connection.Open();
+            if(connection.State == ConnectionState.Open)
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                using(SqlDataReader row = await command.ExecuteReaderAsync())
+                {
+                    while (row.Read())
+                    {
+                        // New empty instance of the stock
+                        Stock stock = new Stock();
+
+                        // Populating each value from the database of the "Stock" Container
+                        stock.Id = (int)row["Id"];
+                        stock.StockExchange = (string)row["StockExchange"];
+                        stock.StockSymbol = (string)row["StockSymbol"];
+                        stock.Date = (DateTime)row["Date"];
+                        stock.StockPriceOpen = (double)row["StockPriceOpen"];
+                        stock.StockPriceHigh = (double)row["StockPriceHigh"];
+                        stock.StockPriceLow = (double)row["StockPriceLow"];
+                        stock.StockPriceClose = (double)row["StockPriceClose"];
+                        stock.StockVolume = (int)row["StockVolume"];
+                        stock.StockPriceAdjClose = (double)row["StockPriceAdjClose"];
+
+                        // Adds the record details to the stockList 
+                        stockList.Add(stock);
+                     }
+                }
+            }
+
+            return stockList;
+        } 
     }
 }

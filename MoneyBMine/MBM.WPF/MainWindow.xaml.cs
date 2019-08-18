@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MBM.BL.Models;
+using MBM.BL.SQL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +25,24 @@ namespace MBM.WPF
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private async void BtnGetAll_Click(object sender, RoutedEventArgs e)
+        {
+            SQL sql = new SQL();
+            List<Stock> stockList = await sql.GetAll();
+            dgDisplay.ItemsSource = stockList;
+
+        }
+
+        /// <summary>
+        /// Exits the program
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MiExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

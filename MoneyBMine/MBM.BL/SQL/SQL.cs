@@ -11,6 +11,8 @@ namespace MBM.BL.SQL
 {
     public class SQL
     {
+        public AddRecordEventHandler AddRecordEventHandler = new AddRecordEventHandler();
+        
         /// <summary>
         /// Sets the SQL Connection string
         /// </summary>
@@ -24,9 +26,9 @@ namespace MBM.BL.SQL
         /// <summary>
         /// Adds a new record to the SQL database
         /// </summary>
-        public async void AddRecord()
+        public async void AddRecord(Stock values)
         {
-            Stock stock = new Stock();
+            Stock stock = values;
             SqlConnection connection = new SqlConnection(sqlConnection);
             connection.Open();
             //Building the query sting and parameters
@@ -46,7 +48,7 @@ namespace MBM.BL.SQL
                 command.Parameters.AddWithValue("@StockVolume", stock.StockVolume);
                 command.Parameters.AddWithValue("@StockPriceAdjClose", stock.StockPriceAdjClose);
                 await command.ExecuteNonQueryAsync();
-
+                AddRecordEventHandler.AddCompleteEvent();
             }
             else
             {

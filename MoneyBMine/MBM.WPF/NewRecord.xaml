@@ -1,0 +1,32 @@
+﻿<Window x:Class="MBM.WPF.NewRecord"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MBM.WPF"
+        mc:Ignorable="d"
+        Title="NewRecord" Height="450" Width="400">
+    <Grid>
+        <Label Name="lblTitle" Content="New Record Details" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="15" FontSize="25" FontWeight="Bold"/>
+        <Label Name="lblStockExchange" Content="Exchange" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,80,0,0" FontSize="14"/>
+        <TextBox Name="tbStockExchange" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,80,0,0" Width="150" FontSize="14" Height="23" TextWrapping="Wrap" Text="NYSE"/>
+        <Label Name="lblStockSymbol" Content="Symbol" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,110,0,0" FontSize="14"/>
+        <TextBox Name="tbStockSymbol" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,110,0,0" Width="150" TextWrapping="Wrap"  FontSize="14" Height="23"/>
+        <Label Name="lblDate" Content="Date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,140,0,0" FontSize="14"/>
+        <DatePicker Name="dpDate" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,138,0,0" Width="150" Height="25" FontSize="14" SelectedDateFormat="Short"/>
+        <Label Name="lblStockPriceOpen" Content="Price Open" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,170,0,0" FontSize="14"/>
+        <TextBox Name="tbStockPriceOpen" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,170,0,0" TextWrapping="Wrap" Width="150" Height="23" FontSize="14"/>
+        <Label Name="lblStockPriceHigh" Content="Price High" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,200,0,0" FontSize="14"/>
+        <TextBox Name="tbStockPriceHigh" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,200,0,0" TextWrapping="Wrap" FontSize="14" Height="23" Width="150"/>
+        <Label Name="lblStockPriceLow" Content="Price Low" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,230,0,0" FontSize="14"/>
+        <TextBox Name="tbStockPriceLow" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,230,0,0" Height="23" Width="150" TextWrapping="Wrap" FontSize="14"/>
+        <Label Name="lblStockPriceClose" Content="Price Close" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,260,0,0" FontSize="14"/>
+        <TextBox Name="tbStockPriceClose" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,260,0,0" Height="23" Width="150" TextWrapping="Wrap" FontSize="14"/>
+        <Label Name="lblStoxkVolume" Content="Volume" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,290,0,0" FontSize="14"/>
+        <TextBox Name="tbStockVolume" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,290,0,0" Height="23" Width="150" TextWrapping="Wrap" FontSize="14"/>
+        <Label Name="lblStockPriceAdjClose" Content="Price Adjusted Close" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,320,0,0" FontSize="14"/>
+        <TextBox Name="tbStockPriceAdjClose" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,320,0,0" Height="23" Width="150"/>
+        <Button Name="btnSubmit" Content="Submit" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,360,0,0" FontSize="14" Width="75" Click="BtnSubmit_Click"/>
+        <Button Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="190,360,0,0" FontSize="14" Width="75"/>
+    </Grid>
+</Window>

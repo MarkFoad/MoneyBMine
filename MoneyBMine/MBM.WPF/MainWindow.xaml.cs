@@ -44,5 +44,33 @@ namespace MBM.WPF
         {
             this.Close();
         }
+
+        /// <summary>
+        /// Opens a new window to capture new record details
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MiAddRecord_Click(object sender, RoutedEventArgs e)
+        {
+            NewRecord newRecord = new NewRecord();
+            newRecord.Show();
+            
+        }
+
+
+        /// <summary>
+        /// Sets the Date Format of the Data-grid to dd/MM/YYYY 
+        /// /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DgDisplay_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.PropertyName == "Date")
+            {
+                DataGridTextColumn column = e.Column as DataGridTextColumn;
+                Binding binding = column.Binding as Binding;
+                binding.StringFormat = "dd/MM/yyyy";
+            }
+        }
     }
 }

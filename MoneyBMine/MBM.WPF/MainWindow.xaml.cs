@@ -1,5 +1,7 @@
-﻿using MBM.BL.Models;
+﻿using MBM.BL;
+using MBM.BL.Models;
 using MBM.BL.SQL;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +73,17 @@ namespace MBM.WPF
                 Binding binding = column.Binding as Binding;
                 binding.StringFormat = "dd/MM/yyyy";
             }
+        }
+
+        private async void BtnGetAllcsv_Click(object sender, RoutedEventArgs e)
+        {
+            CSV csv = new CSV();
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            var result = fileDialog.ShowDialog();
+            csv.ReadCSV(fileDialog.FileName);
+            //    List<Stock> stockList = await csv.ReadCSV($"NYSE_daily_prices_A(sample).csv");
+                dgDisplay.ItemsSource = csv.StockList;
+
         }
     }
 }

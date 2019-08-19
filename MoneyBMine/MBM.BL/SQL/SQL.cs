@@ -16,7 +16,7 @@ namespace MBM.BL.SQL
         /// <summary>
         /// Sets the SQL Connection string
         /// </summary>
-        protected static string sqlConnection = @"Data Source=.\;Initial Catalog=MoneyBMine;Persist Security Info=True;User ID=sa;Password=admin";
+        protected static string sqlConnection = @"Data Source=.\;Initial Catalog=MoneyBMine;Persist Security Info=True;User ID=sa;Password=Mnementh79";
 
         /// <summary>
         /// Gets or sets the- table name to be used.

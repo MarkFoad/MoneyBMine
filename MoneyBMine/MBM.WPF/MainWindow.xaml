@@ -19,7 +19,8 @@
             <MenuItem Name="miExit" Header="Exit" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Height="30" Width="50"  Background="OrangeRed" FontSize="14" FontWeight="Bold" Click="MiExit_Click"/>
         </Menu>
         <DataGrid x:Name="dgDisplay" HorizontalAlignment="Left" Height="650" Margin="10,100,0,0" VerticalAlignment="Top" Width="1170" AutoGeneratingColumn="DgDisplay_AutoGeneratingColumn"/>
-        <Button Name="btnGetAll" Content="Get All" HorizontalAlignment="Left" Margin="648,75,0,0" VerticalAlignment="Top" Width="75" FontSize="14" Click="BtnGetAll_Click" />
+        <Button Name="btnGetAll" Content="Get All - SQL" HorizontalAlignment="Left" Margin="648,75,0,0" VerticalAlignment="Top" Width="100" FontSize="14" Click="BtnGetAll_Click" />
+        <Button Name="btnGetAllcsv" Content="Get All -CSV" HorizontalAlignment="Left" VerticalAlignment="top" Margin="150,70,0,0" FontSize="14" Click="BtnGetAllcsv_Click"/>
 
     </Grid>
 </Window>

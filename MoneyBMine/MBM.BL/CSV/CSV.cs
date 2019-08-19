@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MBM.BL.CSV
+namespace MBM.BL
 {
     public class CSV
     {
@@ -32,12 +32,12 @@ namespace MBM.BL.CSV
         /// Reads and populates a list of all the records from CSV file.
         /// </summary>
         /// <param name="filename"></param>
-        public async void ReadCSV(string filename)
+        public async void ReadCSV(string filepath)
         {
             // Gets the running location of program
-            string filepath = await GetFilePath();
+          //  string filepath = await GetFilePath();
             // adds the supplied filename to be looked up.
-            filepath += filename;
+            //filepath += filename;
             if (File.Exists(filepath))
             {
                 List<string> rows = File.ReadAllLines(filepath).ToList();
@@ -66,7 +66,7 @@ namespace MBM.BL.CSV
             else
             {
                 // Throws an error messages if the file is not found.
-                throw new Exception($"File {filename} was not found at location {filepath} ");
+                throw new Exception($"File was not found at location {filepath} ");
             }
         }
 

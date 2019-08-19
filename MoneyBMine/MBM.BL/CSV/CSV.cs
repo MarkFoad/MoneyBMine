@@ -11,6 +11,9 @@ namespace MBM.BL.CSV
 {
     public class CSV
     {
+        /// <summary>
+        /// Gets or sets a public list of the records from the CSV file read.
+        /// </summary>
         public List<Stock> StockList { get; set; } = new List<Stock>();
 
         /// <summary>

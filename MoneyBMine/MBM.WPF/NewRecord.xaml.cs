@@ -1,6 +1,6 @@
 ﻿using MBM.BL;
+using MBM.BL.Data;
 using MBM.BL.Models;
-using MBM.BL.SQL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace MBM.WPF
         /// <summary>
         /// Instantiates a new instance of the SQL repository
         /// </summary>
-        SQL sql = new SQL();
+        SQLRepository sqlRepository = SQLRepository.Instance; 
 
         /// <summary>
         /// Initializes the New Record window.
@@ -34,8 +34,8 @@ namespace MBM.WPF
         public NewRecord()
         {
             InitializeComponent();
-            sql.AddRecordEventHandler.AddRecordEvent += AddCompletedSuccessEvent;
-            sql.AddRecordEventHandler.AddRecordFailedEvent += AddCompletedSuccessEvent;
+            sqlRepository.AddRecordEventHandler.AddRecordEvent += AddCompletedSuccessEvent;
+            sqlRepository.AddRecordEventHandler.AddRecordFailedEvent += AddCompletedSuccessEvent;
 
         }
 
@@ -91,7 +91,7 @@ namespace MBM.WPF
             stock.StockPriceClose = double.Parse(tbStockPriceClose.Text);
             stock.StockVolume = int.Parse(tbStockVolume.Text);
             stock.StockPriceAdjClose = double.Parse(tbStockPriceAdjClose.Text);
-            sql.AddRecord(stock);
+            sqlRepository.AddRecord(stock);
 
         }
         /// <summary>
@@ -99,7 +99,7 @@ namespace MBM.WPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void PreviewTextInput(object sender, TextCompositionEventArgs e)
+        private new void PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             // Copied from the MSDN Site for WPF Text-box with Decimal numeric value
             Regex regex = new Regex("^[.][0-9]+$|^[0-9]*[.]{0,1}[0-9]*$");

@@ -7,37 +7,54 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MBM.BL
+namespace MBM.BL.Data
 {
-    public class CSV
+    public class CSVRepository
     {
+        /// <summary>
+        /// Privately set instance value.
+        /// </summary>
+        private static CSVRepository instance;
+        /// <summary>
+        /// enabling the temporary lockout.
+        /// </summary>
+        private static readonly Stock padlock = new Stock();
+
+        private CSVRepository()
+        {
+
+        }
+
+        public static CSVRepository Instance
+        {
+            get
+            {
+                if(instance == null)
+                {
+                    lock (padlock)
+                    {
+                        if (instance == null)
+                        {
+                            instance = new CSVRepository();
+                        }
+                    }
+                }
+                return instance;
+            }
+        }
+
         /// <summary>
         /// Gets or sets a public list of the records from the CSV file read.
         /// </summary>
         public List<Stock> StockList { get; set; } = new List<Stock>();
 
         /// <summary>
-        /// Gets the location of the currently running application
-        /// </summary>
-        /// <returns>Folder that the program is currently running in.</returns>
-        private async Task<string> GetFilePath()
-        {
-            string path = Assembly.GetExecutingAssembly().Location;
-            string filepath = Path.GetDirectoryName(path);
-            return filepath;
-        }
-
-
-        /// <summary>
-        /// Reads and populates a list of all the records from CSV file.
+        /// Reads and populates a list of all the records from a CSV file selected/Passed.
         /// </summary>
         /// <param name="filename"></param>
-        public async void ReadCSV(string filepath)
+        public async Task<List<Stock>> ReadCSV(string filepath)
         {
-            // Gets the running location of program
-          //  string filepath = await GetFilePath();
-            // adds the supplied filename to be looked up.
-            //filepath += filename;
+            List<Stock> stocks = new List<Stock>();
             if (File.Exists(filepath))
             {
                 List<string> rows = File.ReadAllLines(filepath).ToList();
@@ -59,7 +76,7 @@ namespace MBM.BL
                     stock.StockPriceAdjClose = double.Parse(entry[8]);
 
                     // Adds the records to the StockList.
-                    StockList.Add(stock);
+                    stocks.Add(stock);
 
                 }
             }
@@ -68,6 +85,7 @@ namespace MBM.BL
                 // Throws an error messages if the file is not found.
                 throw new Exception($"File was not found at location {filepath} ");
             }
+            return stocks;
         }
 
 

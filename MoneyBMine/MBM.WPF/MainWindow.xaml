@@ -11,6 +11,7 @@
         <Menu HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,15,0,0">
             <MenuItem Name="miFile" Header="File" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Height="30" FontSize="14" FontWeight="Bold">
                 <!--<MenuItem Name="miAddRecord" Header="New Record" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" FontSize="14" FontWeight="Bold"/>-->
+                <MenuItem Name="miUpdateSQL" Header="Update SQL from CSV" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" FontSize="14" Click="MiUpdateSQL_Click"/>
             </MenuItem>
             <MenuItem Name="miSQL" Header="SQL" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Height="30" FontSize="14" FontWeight="Bold">
                 <MenuItem Name="miAddRecord" Header="Add New Record" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" FontSize="14" FontWeight="Bold" Click="MiAddRecord_Click"/>
@@ -21,6 +22,8 @@
         <DataGrid x:Name="dgDisplay" HorizontalAlignment="Left" Height="650" Margin="10,100,0,0" VerticalAlignment="Top" Width="1170" AutoGeneratingColumn="DgDisplay_AutoGeneratingColumn"/>
         <Button Name="btnGetAll" Content="Get All - SQL" HorizontalAlignment="Left" Margin="648,75,0,0" VerticalAlignment="Top" Width="100" FontSize="14" Click="BtnGetAll_Click" />
         <Button Name="btnGetAllcsv" Content="Get All -CSV" HorizontalAlignment="Left" VerticalAlignment="top" Margin="150,70,0,0" FontSize="14" Click="BtnGetAllcsv_Click"/>
-
+        <ProgressBar Name="pbProgress" HorizontalAlignment="Center" VerticalAlignment="Center" Width="800" Height="50"/>
+        <Label Name="lblProgress" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        
     </Grid>
 </Window>

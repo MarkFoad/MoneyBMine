@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MBM.BL.Models
 {
     /// <summary>
-    /// Container for Stock Records.
+    /// Model for Stock Records.
     /// </summary>
     public class Stock
     {

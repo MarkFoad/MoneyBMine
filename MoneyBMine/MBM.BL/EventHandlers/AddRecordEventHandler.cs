@@ -27,5 +27,16 @@ namespace MBM.BL
         {
             AddRecordFailedEvent(this, EventArgs.Empty);
         }
+
+        public event EventHandler<EventArgs> AddRecordCounterEvent;
+
+        public int RecordCount { get; set; }
+        public void RecordCountEvent()
+        {
+
+            AddRecordCounterEvent(this, EventArgs.Empty);
+        }
+
+
     }
 }

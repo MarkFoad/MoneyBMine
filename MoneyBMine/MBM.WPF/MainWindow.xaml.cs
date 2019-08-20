@@ -1,6 +1,7 @@
 ﻿using MBM.BL;
+using MBM.BL.Data;
 using MBM.BL.Models;
-using MBM.BL.SQL;
+
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -24,15 +25,55 @@ namespace MBM.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        CSVRepository csvRepository = CSVRepository.Instance;
+        SQLRepository sqlRepository = SQLRepository.Instance;
+        AddRecordEventHandler AddRecord = new AddRecordEventHandler();
+
+        public int TotalRecords { get; set; }
+        public int RecordCounter { get; set; }
+        private AddRecordEventHandler finished = new AddRecordEventHandler();
+
         public MainWindow()
         {
             InitializeComponent();
+            HideProgress();
+            AddRecord.AddRecordCounterEvent += IncreaseCounterEvent;
+            finished.AddRecordEvent += FinishedEvent;
+
+        }
+
+        /// <summary>
+        /// Displays the message box when the SQL Records update has been completed.
+        /// Then hides the progress bar and the label indicator.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FinishedEvent(object sender, EventArgs e)
+        {
+            MessageBox.Show("SQL Update from CSV file completed");
+            HideProgress();
+        }
+
+
+
+        /// <summary>
+        /// Hides the progress bar and the progress bar label
+        /// </summary>
+        private void HideProgress()
+        {
+            pbProgress.Visibility = Visibility.Hidden;
+            lblProgress.Visibility = Visibility.Hidden;
+        }
+
+        private void IncreaseCounterEvent(object sender, EventArgs e)
+        {
+            RecordCounter = AddRecord.RecordCount;
         }
 
         private async void BtnGetAll_Click(object sender, RoutedEventArgs e)
         {
-            SQL sql = new SQL();
-            List<Stock> stockList = await sql.GetAll();
+
+            List<Stock> stockList = await sqlRepository.GetAll();
             dgDisplay.ItemsSource = stockList;
 
         }
@@ -56,7 +97,7 @@ namespace MBM.WPF
         {
             NewRecord newRecord = new NewRecord();
             newRecord.Show();
-            
+
         }
 
 
@@ -77,12 +118,23 @@ namespace MBM.WPF
 
         private async void BtnGetAllcsv_Click(object sender, RoutedEventArgs e)
         {
-            CSV csv = new CSV();
+
             OpenFileDialog fileDialog = new OpenFileDialog();
             var result = fileDialog.ShowDialog();
-            csv.ReadCSV(fileDialog.FileName);
+            List<Stock> stockList = await csvRepository.ReadCSV(fileDialog.FileName);
             //    List<Stock> stockList = await csv.ReadCSV($"NYSE_daily_prices_A(sample).csv");
-                dgDisplay.ItemsSource = csv.StockList;
+            dgDisplay.ItemsSource = stockList;
+
+        }
+
+        private async void MiUpdateSQL_Click(object sender, RoutedEventArgs e)
+        {
+            List<Stock> stockList = new List<Stock>();
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            var result = fileDialog.ShowDialog();
+            stockList = await csvRepository.ReadCSV(fileDialog.FileName);
+            sqlRepository.AddRecord(stockList);
+
 
         }
     }

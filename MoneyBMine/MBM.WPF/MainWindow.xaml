@@ -5,9 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MBM.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200">
+        Height="{x:Static SystemParameters.PrimaryScreenHeight}" 
+      Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
+        Title="MainWindow" 
+         WindowStartupLocation="CenterScreen">
     <Grid>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="50" Margin="10,10,0,0" VerticalAlignment="Top" Width="1170"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="50" Margin="10,10,0,0" VerticalAlignment="Top" Width="Auto"/>
         <Menu HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,15,0,0">
             <MenuItem Name="miFile" Header="File" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Height="30" FontSize="14" FontWeight="Bold">
                 <!--<MenuItem Name="miAddRecord" Header="New Record" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" FontSize="14" FontWeight="Bold"/>-->
@@ -19,7 +22,7 @@
             
             <MenuItem Name="miExit" Header="Exit" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Height="30" Width="50"  Background="OrangeRed" FontSize="14" FontWeight="Bold" Click="MiExit_Click"/>
         </Menu>
-        <DataGrid x:Name="dgDisplay" HorizontalAlignment="Left" Height="650" Margin="10,100,0,0" VerticalAlignment="Top" Width="1170" AutoGeneratingColumn="DgDisplay_AutoGeneratingColumn"/>
+        <DataGrid x:Name="dgDisplay" HorizontalAlignment="Left" Height="{x:Static SystemParameters.PrimaryScreenHeight}" Margin="50,100,50,200" VerticalAlignment="Top" Width="{x:Static SystemParameters.PrimaryScreenWidth}" AutoGeneratingColumn="DgDisplay_AutoGeneratingColumn" FontSize="14"/>
         <Button Name="btnGetAll" Content="Get All - SQL" HorizontalAlignment="Left" Margin="648,75,0,0" VerticalAlignment="Top" Width="100" FontSize="14" Click="BtnGetAll_Click" />
         <Button Name="btnGetAllcsv" Content="Get All -CSV" HorizontalAlignment="Left" VerticalAlignment="top" Margin="150,70,0,0" FontSize="14" Click="BtnGetAllcsv_Click"/>
         <ProgressBar Name="pbProgress" HorizontalAlignment="Center" VerticalAlignment="Center" Width="800" Height="50"/>

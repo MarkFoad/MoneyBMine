@@ -66,6 +66,9 @@ namespace MBM.BL.Data
         public async void AddRecord(Stock values)
         {
             Stock stock = values;
+            try
+            {
+
             SqlConnection connection = new SqlConnection(sqlConnection);
             connection.Open();
             //Building the query sting and parameters
@@ -87,52 +90,58 @@ namespace MBM.BL.Data
                 await command.ExecuteNonQueryAsync();
                 AddRecordEventHandler.AddCompleteEvent();
             }
-            else
-            {
-                throw new Exception("Connection to Database failed");
-
-            }
+            
             // Makes sure the connection is closed on completion.
             connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error writing record to the database", ex);
+            }
 
         }
 
         public async void AddRecord(List<Stock> values)
         {
-            List<Stock> stock = values;
-            SqlConnection connection = new SqlConnection(sqlConnection);
-            connection.Open();
-            //Building the query sting and parameters
-            string query = $"INSERT INTO [MoneyBMine].[dbo].[{TableName}] ([StockExchange], [StockSymbol], [Date], [StockPriceOpen], [StockPriceHigh], [StockPriceLow], [StockPriceClose], [StockVolume], [StockPriceAdjClose]) ";
-            query += " Values (@StockExchange, @StockSymbol, @Date, @StockPriceOpen, @StockPriceHigh,@StockPriceLow, @StockPriceClose, @StockVolume, @StockPriceAdjClose)";
-            for (int i = 0; i < stock.Count; i++)
+            try
             {
 
+                List<Stock> stock = values;
+                SqlConnection connection = new SqlConnection(sqlConnection);
+                connection.Open();
+                //Building the query sting and parameters
+                string query = $"INSERT INTO [MoneyBMine].[dbo].[{TableName}] ([StockExchange], [StockSymbol], [Date], [StockPriceOpen], [StockPriceHigh], [StockPriceLow], [StockPriceClose], [StockVolume], [StockPriceAdjClose]) ";
+                query += " Values (@StockExchange, @StockSymbol, @Date, @StockPriceOpen, @StockPriceHigh,@StockPriceLow, @StockPriceClose, @StockVolume, @StockPriceAdjClose)";
                 if (connection.State == ConnectionState.Open)
                 {
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@StockExchange", stock[i].StockExchange);
-                    command.Parameters.AddWithValue("@StockSymbol", stock[i].StockSymbol);
-                    command.Parameters.AddWithValue("@Date", stock[i].Date);
-                    command.Parameters.AddWithValue("@StockPriceOpen", stock[i].StockPriceOpen);
-                    command.Parameters.AddWithValue("@StockPriceHigh", stock[i].StockPriceHigh);
-                    command.Parameters.AddWithValue("@StockPriceLow", stock[i].StockPriceLow);
-                    command.Parameters.AddWithValue("@StockPriceClose", stock[i].StockPriceClose);
-                    command.Parameters.AddWithValue("@StockVolume", stock[i].StockVolume);
-                    command.Parameters.AddWithValue("@StockPriceAdjClose", stock[i].StockPriceAdjClose);
-                    await command.ExecuteNonQueryAsync();
-                    AddRecordEventHandler.AddCompleteEvent();
+                    for (int i = 0; i < stock.Count; i++)
 
-                }
-                else
-                {
-                    throw new Exception("Connection to Database failed");
+                    {
+                        SqlCommand command = new SqlCommand(query, connection);
+                        command.Parameters.AddWithValue("@StockExchange", stock[i].StockExchange);
+                        command.Parameters.AddWithValue("@StockSymbol", stock[i].StockSymbol);
+                        command.Parameters.AddWithValue("@Date", stock[i].Date);
+                        command.Parameters.AddWithValue("@StockPriceOpen", stock[i].StockPriceOpen);
+                        command.Parameters.AddWithValue("@StockPriceHigh", stock[i].StockPriceHigh);
+                        command.Parameters.AddWithValue("@StockPriceLow", stock[i].StockPriceLow);
+                        command.Parameters.AddWithValue("@StockPriceClose", stock[i].StockPriceClose);
+                        command.Parameters.AddWithValue("@StockVolume", stock[i].StockVolume);
+                        command.Parameters.AddWithValue("@StockPriceAdjClose", stock[i].StockPriceAdjClose);
 
+                        await command.ExecuteNonQueryAsync();
+
+                        AddRecordEventHandler.RecordCountEvent();
+                    }
                 }
+
+                // Makes sure the connection is closed on completion.
+                connection.Close();
+                
             }
-            // Makes sure the connection is closed on completion.
-            connection.Close();
-            
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to Bulk write records to SQL database", ex);
+            }
         }
 
         /// <summary>

@@ -30,7 +30,7 @@ namespace MBM.BL
 
         public event EventHandler<EventArgs> AddRecordCounterEvent;
 
-        public int RecordCount { get; set; }
+        //public int RecordCount { get; set; }
         public void RecordCountEvent()
         {
 

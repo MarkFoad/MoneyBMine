@@ -29,6 +29,7 @@ namespace MBM.WPF
         SQLRepository sqlRepository = SQLRepository.Instance;
         AddRecordEventHandler AddRecord = new AddRecordEventHandler();
 
+        private List<Stock> stockList { get; set; }
         public int TotalRecords { get; set; }
         public int RecordCounter { get; set; }
         private AddRecordEventHandler finished = new AddRecordEventHandler();
@@ -37,7 +38,10 @@ namespace MBM.WPF
         {
             InitializeComponent();
             HideProgress();
-            AddRecord.AddRecordCounterEvent += IncreaseCounterEvent;
+            sqlRepository.AddRecordEventHandler.AddRecordCounterEvent += ShowProgressCounterEvent;
+
+            //AddRecord.AddRecordCounterEvent += IncreaseCounterEvent;
+            //AddRecord.AddRecordEvent += FinishedEvent;
             finished.AddRecordEvent += FinishedEvent;
 
         }
@@ -65,9 +69,24 @@ namespace MBM.WPF
             lblProgress.Visibility = Visibility.Hidden;
         }
 
-        private void IncreaseCounterEvent(object sender, EventArgs e)
+        public int recordCount = 0;
+        private void ShowProgressCounterEvent(object sender, EventArgs e)
         {
-            RecordCounter = AddRecord.RecordCount;
+            pbProgress.Visibility = Visibility.Visible;
+            lblProgress.Visibility = Visibility.Visible;
+            pbProgress.Maximum = stockList.Count;
+            recordCount++;
+            if(pbProgress.Value <= pbProgress.Maximum)
+            {
+                int percentComplete = (int)Math.Round((double)(100 * recordCount) / pbProgress.Maximum);
+                lblProgress.Content = $"{percentComplete}% Complete - Please wait until update is complete!";
+                pbProgress.Value = recordCount;
+            }
+            if(pbProgress.Value == pbProgress.Maximum)
+            {
+                finished.AddCompleteEvent();
+            }
+
         }
 
         private async void BtnGetAll_Click(object sender, RoutedEventArgs e)
@@ -129,7 +148,7 @@ namespace MBM.WPF
 
         private async void MiUpdateSQL_Click(object sender, RoutedEventArgs e)
         {
-            List<Stock> stockList = new List<Stock>();
+            //List<Stock> stockList = new List<Stock>();
             OpenFileDialog fileDialog = new OpenFileDialog();
             var result = fileDialog.ShowDialog();
             stockList = await csvRepository.ReadCSV(fileDialog.FileName);

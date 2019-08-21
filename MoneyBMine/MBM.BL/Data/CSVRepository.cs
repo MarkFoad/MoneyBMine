@@ -20,16 +20,22 @@ namespace MBM.BL.Data
         /// </summary>
         private static readonly Stock padlock = new Stock();
 
+        /// <summary>
+        /// Private initiation of the CSV Repository
+        /// </summary>
         private CSVRepository()
         {
 
         }
 
+        /// <summary>
+        /// Gets an instance of the CSV Data
+        /// </summary>
         public static CSVRepository Instance
         {
             get
             {
-                if(instance == null)
+                if (instance == null)
                 {
                     lock (padlock)
                     {
@@ -55,37 +61,45 @@ namespace MBM.BL.Data
         public async Task<List<Stock>> ReadCSV(string filepath)
         {
             List<Stock> stocks = new List<Stock>();
-            if (File.Exists(filepath))
+            try
             {
-                List<string> rows = File.ReadAllLines(filepath).ToList();
-                // Loops through the CSV file and skips the first line as this is headings.
-                foreach (var row in rows.Skip(1))
-                {
-                    // Splits the row string into an array using the , as the separator.
-                    string[] entry = row.Split(',');
-                    Stock stock = new Stock();
-                    // populates the model with data from each row of the CSV file.
-                    stock.StockExchange = (string)entry[0];
-                    stock.StockSymbol = (string)entry[1];
-                    stock.Date = DateTime.Parse(entry[2]);
-                    stock.StockPriceOpen = double.Parse(entry[3]);
-                    stock.StockPriceHigh = double.Parse(entry[4]);
-                    stock.StockPriceLow = double.Parse(entry[5]);
-                    stock.StockPriceClose = double.Parse(entry[6]);
-                    stock.StockVolume = int.Parse(entry[7]);
-                    stock.StockPriceAdjClose = double.Parse(entry[8]);
 
-                    // Adds the records to the StockList.
-                    stocks.Add(stock);
+                if (File.Exists(filepath))
+                {
+                    List<string> rows = File.ReadAllLines(filepath).ToList();
+                    // Loops through the CSV file and skips the first line as this is headings.
+                    foreach (var row in rows.Skip(1))
+                    {
+                        // Splits the row string into an array using the , as the separator.
+                        string[] entry = row.Split(',');
+                        Stock stock = new Stock();
+                        // populates the model with data from each row of the CSV file.
+                        stock.StockExchange = (string)entry[0];
+                        stock.StockSymbol = (string)entry[1];
+                        stock.Date = DateTime.Parse(entry[2]);
+                        stock.StockPriceOpen = double.Parse(entry[3]);
+                        stock.StockPriceHigh = double.Parse(entry[4]);
+                        stock.StockPriceLow = double.Parse(entry[5]);
+                        stock.StockPriceClose = double.Parse(entry[6]);
+                        stock.StockVolume = int.Parse(entry[7]);
+                        stock.StockPriceAdjClose = double.Parse(entry[8]);
+
+                        // Adds the records to the StockList.
+                        stocks.Add(stock);
+                    }
 
                 }
-            }
-            else
-            {
-                // Throws an error messages if the file is not found.
-                throw new Exception($"File was not found at location {filepath} ");
-            }
             return stocks;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("File was not for or able to be loaded", ex);
+            }
+//            else
+//            {
+//                // Throws an error messages if the file is not found.
+//                throw new Exception($"File was not found at location {filepath} ");
+//            }
         }
 
 

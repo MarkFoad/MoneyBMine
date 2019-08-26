@@ -11,22 +11,31 @@
          WindowStartupLocation="CenterScreen">
     <Grid>
         <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="50" Margin="10,10,0,0" VerticalAlignment="Top" Width="Auto"/>
-        <Menu HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,15,0,0">
+
+        <Menu VerticalAlignment="Top" Margin="15">
             <MenuItem Name="miFile" Header="File" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Height="30" FontSize="14" FontWeight="Bold">
                 <!--<MenuItem Name="miAddRecord" Header="New Record" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" FontSize="14" FontWeight="Bold"/>-->
                 <MenuItem Name="miUpdateSQL" Header="Update SQL from CSV" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" FontSize="14" Click="MiUpdateSQL_Click"/>
+            </MenuItem>
+            <MenuItem Name="miFilter" Header="Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Height="30" FontSize="14" FontWeight="Bold">
+                <MenuItem Name="miBydate" Header="FilterBydate" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Click="MiBydate_Click" />
+                <MenuItem Name="miStockMovement" Header="Stock Movements" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20"/>
+                <MenuItem Name="miHighLow" Header="High / Low Ratios" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20"/>
             </MenuItem>
             <MenuItem Name="miSQL" Header="SQL" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Height="30" FontSize="14" FontWeight="Bold">
                 <MenuItem Name="miAddRecord" Header="Add New Record" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" FontSize="14" FontWeight="Bold" Click="MiAddRecord_Click"/>
             </MenuItem>
             
-            <MenuItem Name="miExit" Header="Exit" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="5" Height="30" Width="50"  Background="OrangeRed" FontSize="14" FontWeight="Bold" Click="MiExit_Click"/>
+            <MenuItem Name="miExit" Header="Exit" Margin="5" Height="30" Width="50"  Background="OrangeRed" FontSize="14" FontWeight="Bold" Click="MiExit_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
         </Menu>
         <DataGrid x:Name="dgDisplay" HorizontalAlignment="Left" Height="{x:Static SystemParameters.PrimaryScreenHeight}" Margin="50,100,50,200" VerticalAlignment="Top" Width="{x:Static SystemParameters.PrimaryScreenWidth}" AutoGeneratingColumn="DgDisplay_AutoGeneratingColumn" FontSize="14"/>
-        <Button Name="btnGetAll" Content="Get All - SQL" HorizontalAlignment="Left" Margin="648,75,0,0" VerticalAlignment="Top" Width="100" FontSize="14" Click="BtnGetAll_Click" />
-        <Button Name="btnGetAllcsv" Content="Get All -CSV" HorizontalAlignment="Left" VerticalAlignment="top" Margin="150,70,0,0" FontSize="14" Click="BtnGetAllcsv_Click"/>
+        <Button Name="btnGetAll" Content="Get All - SQL" HorizontalAlignment="Left" Margin="766,72,0,0" VerticalAlignment="Top" Width="100" FontSize="14" Click="BtnGetAll_Click" RenderTransformOrigin="1.55,0.217" />
+        <Button Name="btnGetAllcsv" Content="Get All -CSV" HorizontalAlignment="Left" VerticalAlignment="top" Margin="900,72,0,0" FontSize="14" Click="BtnGetAllcsv_Click"/>
         <ProgressBar Name="pbProgress" HorizontalAlignment="Center" VerticalAlignment="Center" Width="800" Height="50"/>
         <Label Name="lblProgress" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        
+        <Label Name="lblDates" Content="Select A Date" HorizontalAlignment="Left" Margin="250,50,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold"/>
+        <ComboBox Name="cbDates" HorizontalAlignment="Left" Margin="250,73,0,0" VerticalAlignment="Top" Width="120" FontSize="14" FontWeight="Bold"/>
+        <Button Name="btnSearch" Content="Search" HorizontalAlignment="Left" Margin="50,65,0,0" VerticalAlignment="Top" Width="75" FontSize="14" FontWeight="Bold" Height="30" Click="BtnSearch_Click"/>
+
     </Grid>
 </Window>

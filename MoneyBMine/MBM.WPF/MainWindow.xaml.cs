@@ -27,23 +27,48 @@ namespace MBM.WPF
     {
         CSVRepository csvRepository = CSVRepository.Instance;
         SQLRepository sqlRepository = SQLRepository.Instance;
-        AddRecordEventHandler AddRecord = new AddRecordEventHandler();
+        //AddRecordEventHandler AddRecord = new AddRecordEventHandler();
+       
 
         private List<Stock> stockList { get; set; }
+
+        private List<string> Dates { get; set; }
         public int TotalRecords { get; set; }
         public int RecordCounter { get; set; }
         private AddRecordEventHandler finished = new AddRecordEventHandler();
+        private WaitEventHandler waitstart = new WaitEventHandler();
 
         public MainWindow()
         {
             InitializeComponent();
             HideProgress();
             sqlRepository.AddRecordEventHandler.AddRecordCounterEvent += ShowProgressCounterEvent;
-
-            //AddRecord.AddRecordCounterEvent += IncreaseCounterEvent;
-            //AddRecord.AddRecordEvent += FinishedEvent;
             finished.AddRecordEvent += FinishedEvent;
 
+            waitstart.Waiter += WaiterStart;
+
+            HideDateSelector();
+
+            LoadData();
+            
+        }
+
+        private void WaiterStart(object sender, EventArgs e)
+        {
+            MessageBox.Show("Waiter Start");
+        }
+
+        private async void LoadData()
+        {
+             cbDates.ItemsSource = await sqlRepository.GetDates();
+
+        }
+
+        private void HideDateSelector()
+        {
+            lblDates.Visibility = Visibility.Hidden;
+            cbDates.Visibility = Visibility.Hidden;
+            btnSearch.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -92,8 +117,8 @@ namespace MBM.WPF
         private async void BtnGetAll_Click(object sender, RoutedEventArgs e)
         {
 
-            List<Stock> stockList = await sqlRepository.GetAll();
-            dgDisplay.ItemsSource = stockList;
+            
+            dgDisplay.ItemsSource = await sqlRepository.GetAll();
 
         }
 
@@ -155,6 +180,29 @@ namespace MBM.WPF
             sqlRepository.AddRecord(stockList);
 
 
+        }
+
+        /// <summary>
+        ///  Date selection and search button become visible 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MiBydate_Click(object sender, RoutedEventArgs e)
+        {
+            lblDates.Visibility = Visibility.Visible;
+            cbDates.Visibility = Visibility.Visible;
+            btnSearch.Visibility = Visibility.Visible;
+            
+
+        }
+
+        private async void BtnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            if(cbDates.Text != "")
+            {
+                
+                dgDisplay.ItemsSource = await sqlRepository.GetByDate(DateTime.Parse(cbDates.Text));
+            }
         }
     }
 }

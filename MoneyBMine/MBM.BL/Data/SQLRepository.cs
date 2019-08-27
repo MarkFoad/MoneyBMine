@@ -104,12 +104,12 @@ namespace MBM.BL.Data
 
         }
 
-        public async void AddRecord(List<Stock> values)
+        public async void AddRecord(List<Stock> stock)
         {
             try
             {
+                List<Stock> Stocks = await GetAll();
 
-                List<Stock> stock = values;
                 SqlConnection connection = new SqlConnection(sqlConnection);
                 connection.Open();
                 //Building the query sting and parameters
@@ -118,22 +118,33 @@ namespace MBM.BL.Data
                 if (connection.State == ConnectionState.Open)
                 {
                     for (int i = 0; i < stock.Count; i++)
-
                     {
-                        SqlCommand command = new SqlCommand(query, connection);
-                        command.Parameters.AddWithValue("@StockExchange", stock[i].StockExchange);
-                        command.Parameters.AddWithValue("@StockSymbol", stock[i].StockSymbol);
-                        command.Parameters.AddWithValue("@Date", stock[i].Date);
-                        command.Parameters.AddWithValue("@StockPriceOpen", stock[i].StockPriceOpen);
-                        command.Parameters.AddWithValue("@StockPriceHigh", stock[i].StockPriceHigh);
-                        command.Parameters.AddWithValue("@StockPriceLow", stock[i].StockPriceLow);
-                        command.Parameters.AddWithValue("@StockPriceClose", stock[i].StockPriceClose);
-                        command.Parameters.AddWithValue("@StockVolume", stock[i].StockVolume);
-                        command.Parameters.AddWithValue("@StockPriceAdjClose", stock[i].StockPriceAdjClose);
+                        // int existingRecord = 0;
+                        // foreach (var item in Stocks)
+                        // {
+                        //     if (stock[i].StockSymbol == item.StockSymbol && stock[i].Date == item.Date)
+                        //     {
+                        //         existingRecord++;
+                        //     }
+                        // }
+                        // if (existingRecord == 0)
+                        // {
 
-                        await command.ExecuteNonQueryAsync();
+                            SqlCommand command = new SqlCommand(query, connection);
+                            command.Parameters.AddWithValue("@StockExchange", stock[i].StockExchange);
+                            command.Parameters.AddWithValue("@StockSymbol", stock[i].StockSymbol);
+                            command.Parameters.AddWithValue("@Date", stock[i].Date);
+                            command.Parameters.AddWithValue("@StockPriceOpen", stock[i].StockPriceOpen);
+                            command.Parameters.AddWithValue("@StockPriceHigh", stock[i].StockPriceHigh);
+                            command.Parameters.AddWithValue("@StockPriceLow", stock[i].StockPriceLow);
+                            command.Parameters.AddWithValue("@StockPriceClose", stock[i].StockPriceClose);
+                            command.Parameters.AddWithValue("@StockVolume", stock[i].StockVolume);
+                            command.Parameters.AddWithValue("@StockPriceAdjClose", stock[i].StockPriceAdjClose);
 
-                        AddRecordEventHandler.RecordCountEvent();
+                            await command.ExecuteNonQueryAsync();
+
+                            AddRecordEventHandler.RecordCountEvent();
+                       // }
                     }
                 }
 
@@ -242,6 +253,11 @@ namespace MBM.BL.Data
             }
         }
 
+        /// <summary>
+        /// Gets all the records for the date specified
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns>A list of records for a specified date</returns>
         public async Task<List<Stock>> GetByDate(DateTime date)
         {
             List<Stock> stocks = new List<Stock>();
@@ -258,6 +274,40 @@ namespace MBM.BL.Data
                 }
             }
 
+            return stocks;
+        }
+
+        public async Task<List<Stock>> GetByDate(DateTime startDate, DateTime finishDate)
+        {
+            List<Stock> stocks = new List<Stock>();
+            string finishDateString;
+            string startDateString;
+
+            if (startDate != null)
+            {
+                if (startDate > finishDate)
+                {
+                    startDateString = finishDate.ToString("yyyy-MM-dd");
+                    finishDateString = startDate.ToString("yyyy-MM-dd");
+
+
+                }
+                else
+                {
+
+                    startDateString = startDate.ToString("yyyy-MM-dd");
+                    finishDateString = finishDate.ToString("yyyy-MM-dd");
+                }
+
+                string query = $"SELECT * FROM [MoneyBMine].[dbo].[{TableName}] WHERE [Date] >='{startDateString}' AND [Date] <= '{finishDateString}' ORDER BY [Date] desc";
+                using (SqlConnection connection = new SqlConnection(sqlConnection))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(query, connection);
+                    await StockReader(stocks, command);
+                    connection.Close();
+                }
+            }
             return stocks;
         }
     }

@@ -28,11 +28,13 @@ namespace MBM.WPF
         CSVRepository csvRepository = CSVRepository.Instance;
         SQLRepository sqlRepository = SQLRepository.Instance;
         //AddRecordEventHandler AddRecord = new AddRecordEventHandler();
-       
+
+
 
         private List<Stock> stockList { get; set; }
 
-        private List<string> Dates { get; set; }
+        public string FilterSelection { get; set; }
+
         public int TotalRecords { get; set; }
         public int RecordCounter { get; set; }
         private AddRecordEventHandler finished = new AddRecordEventHandler();
@@ -47,10 +49,10 @@ namespace MBM.WPF
 
             waitstart.Waiter += WaiterStart;
 
-            HideDateSelector();
+            HideFilterOptions();
 
             LoadData();
-            
+
         }
 
         private void WaiterStart(object sender, EventArgs e)
@@ -60,14 +62,20 @@ namespace MBM.WPF
 
         private async void LoadData()
         {
-             cbDates.ItemsSource = await sqlRepository.GetDates();
+            cbStartDate.ItemsSource = await sqlRepository.GetDates();
+            cbFinishDate.ItemsSource = cbStartDate.ItemsSource;
 
         }
 
-        private void HideDateSelector()
+        /// <summary>
+        /// Hides all the filter options 
+        /// </summary>
+        private void HideFilterOptions()
         {
-            lblDates.Visibility = Visibility.Hidden;
-            cbDates.Visibility = Visibility.Hidden;
+            lblFinishDate.Visibility = Visibility.Hidden;
+            cbFinishDate.Visibility = Visibility.Hidden;
+            lblStartDate.Visibility = Visibility.Hidden;
+            cbStartDate.Visibility = Visibility.Hidden;
             btnSearch.Visibility = Visibility.Hidden;
         }
 
@@ -94,30 +102,44 @@ namespace MBM.WPF
             lblProgress.Visibility = Visibility.Hidden;
         }
 
+        /// <summary>
+        /// record Counter for when Progress bar when bulk upload to database
+        /// </summary>
         public int recordCount = 0;
+
+        /// <summary>
+        /// Displays the Progress bar on the page while bulk upload to database is in progress
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ShowProgressCounterEvent(object sender, EventArgs e)
         {
             pbProgress.Visibility = Visibility.Visible;
             lblProgress.Visibility = Visibility.Visible;
             pbProgress.Maximum = stockList.Count;
             recordCount++;
-            if(pbProgress.Value <= pbProgress.Maximum)
+            if (pbProgress.Value <= pbProgress.Maximum)
             {
                 int percentComplete = (int)Math.Round((double)(100 * recordCount) / pbProgress.Maximum);
                 lblProgress.Content = $"{percentComplete}% Complete - Please wait until update is complete!";
                 pbProgress.Value = recordCount;
             }
-            if(pbProgress.Value == pbProgress.Maximum)
+            if (pbProgress.Value == pbProgress.Maximum)
             {
                 finished.AddCompleteEvent();
             }
 
         }
 
+        /// <summary>
+        /// Displays all records from the SQL database
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void BtnGetAll_Click(object sender, RoutedEventArgs e)
         {
 
-            
+
             dgDisplay.ItemsSource = await sqlRepository.GetAll();
 
         }
@@ -171,6 +193,11 @@ namespace MBM.WPF
 
         }
 
+        /// <summary>
+        /// Locate a file to update records in the SQL Database from CSV file.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void MiUpdateSQL_Click(object sender, RoutedEventArgs e)
         {
             //List<Stock> stockList = new List<Stock>();
@@ -189,20 +216,54 @@ namespace MBM.WPF
         /// <param name="e"></param>
         private void MiBydate_Click(object sender, RoutedEventArgs e)
         {
-            lblDates.Visibility = Visibility.Visible;
-            cbDates.Visibility = Visibility.Visible;
+            FilterSelection = "GetByDate";
+            lblFinishDate.Visibility = Visibility.Hidden;
+            cbFinishDate.Visibility = Visibility.Hidden;
+            lblStartDate.Content = "Select a date";
+            lblStartDate.Visibility = Visibility.Visible;
+            cbStartDate.Visibility = Visibility.Visible;
             btnSearch.Visibility = Visibility.Visible;
-            
+
 
         }
+        private void MiBetweenDates_Click(object sender, RoutedEventArgs e)
+        {
+            FilterSelection = "GetBetweenDates";
+            lblFinishDate.Visibility = Visibility.Visible;
+            cbFinishDate.Visibility = Visibility.Visible;
+            lblStartDate.Content = "Select a start date";
+            lblStartDate.Visibility = Visibility.Visible;
+            cbStartDate.Visibility = Visibility.Visible;
+            btnSearch.Visibility = Visibility.Visible;
+        }
 
+        /// <summary>
+        /// Searches for records matching the parameters selected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-            if(cbDates.Text != "")
+            if (FilterSelection != string.Empty)
             {
-                
-                dgDisplay.ItemsSource = await sqlRepository.GetByDate(DateTime.Parse(cbDates.Text));
+
+                switch (FilterSelection)
+                {
+                    case "GetByDate":
+                        dgDisplay.ItemsSource = await sqlRepository.GetByDate(DateTime.Parse(cbStartDate.Text));
+                        break;
+                    case "GetBetweenDates":
+                    dgDisplay.ItemsSource = await sqlRepository.GetByDate(DateTime.Parse(cbStartDate.Text), DateTime.Parse(cbFinishDate.Text));
+                        break;
+
+                    case "":
+                        break;
+
+                }
             }
+
+           
         }
+
     }
 }

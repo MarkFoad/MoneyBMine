@@ -95,11 +95,6 @@ namespace MBM.BL.Data
             {
                 throw new Exception("File was not for or able to be loaded", ex);
             }
-//            else
-//            {
-//                // Throws an error messages if the file is not found.
-//                throw new Exception($"File was not found at location {filepath} ");
-//            }
         }
 
 

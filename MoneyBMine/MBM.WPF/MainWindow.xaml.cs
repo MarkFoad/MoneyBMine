@@ -38,7 +38,6 @@ namespace MBM.WPF
         public int TotalRecords { get; set; }
         public int RecordCounter { get; set; }
         private AddRecordEventHandler finished = new AddRecordEventHandler();
-        private WaitEventHandler waitstart = new WaitEventHandler();
 
         public MainWindow()
         {
@@ -47,7 +46,6 @@ namespace MBM.WPF
             sqlRepository.AddRecordEventHandler.AddRecordCounterEvent += ShowProgressCounterEvent;
             finished.AddRecordEvent += FinishedEvent;
 
-            waitstart.Waiter += WaiterStart;
 
             HideFilterOptions();
 
@@ -55,15 +53,11 @@ namespace MBM.WPF
 
         }
 
-        private void WaiterStart(object sender, EventArgs e)
-        {
-            MessageBox.Show("Waiter Start");
-        }
-
         private async void LoadData()
         {
             cbStartDate.ItemsSource = await sqlRepository.GetDates();
             cbFinishDate.ItemsSource = cbStartDate.ItemsSource;
+            cbStockSymbol.ItemsSource = await sqlRepository.GetStockSymbols();
 
         }
 
@@ -72,6 +66,8 @@ namespace MBM.WPF
         /// </summary>
         private void HideFilterOptions()
         {
+            lblStockSymbol.Visibility = Visibility.Hidden;
+            cbStockSymbol.Visibility = Visibility.Hidden;
             lblFinishDate.Visibility = Visibility.Hidden;
             cbFinishDate.Visibility = Visibility.Hidden;
             lblStartDate.Visibility = Visibility.Hidden;
@@ -222,6 +218,8 @@ namespace MBM.WPF
             lblStartDate.Content = "Select a date";
             lblStartDate.Visibility = Visibility.Visible;
             cbStartDate.Visibility = Visibility.Visible;
+            lblStockSymbol.Visibility = Visibility.Visible;
+            cbStockSymbol.Visibility = Visibility.Visible;
             btnSearch.Visibility = Visibility.Visible;
 
 
@@ -234,6 +232,8 @@ namespace MBM.WPF
             lblStartDate.Content = "Select a start date";
             lblStartDate.Visibility = Visibility.Visible;
             cbStartDate.Visibility = Visibility.Visible;
+            lblStockSymbol.Visibility = Visibility.Visible;
+            cbStockSymbol.Visibility = Visibility.Visible;
             btnSearch.Visibility = Visibility.Visible;
         }
 
@@ -250,10 +250,10 @@ namespace MBM.WPF
                 switch (FilterSelection)
                 {
                     case "GetByDate":
-                        dgDisplay.ItemsSource = await sqlRepository.GetByDate(DateTime.Parse(cbStartDate.Text));
+                        dgDisplay.ItemsSource = await sqlRepository.GetByDate(DateTime.Parse(cbStartDate.Text), cbStockSymbol.Text);
                         break;
                     case "GetBetweenDates":
-                    dgDisplay.ItemsSource = await sqlRepository.GetByDate(DateTime.Parse(cbStartDate.Text), DateTime.Parse(cbFinishDate.Text));
+                        dgDisplay.ItemsSource = await sqlRepository.GetByDate(DateTime.Parse(cbStartDate.Text), DateTime.Parse(cbFinishDate.Text),cbStockSymbol.Text);
                         break;
 
                     case "":
@@ -262,8 +262,18 @@ namespace MBM.WPF
                 }
             }
 
-           
+
         }
 
+        /// <summary>
+        /// Loads the SQL Server information Page.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MiSQLServer_Click(object sender, RoutedEventArgs e)
+        {
+            SQLServer sqlServer = new SQLServer();
+            sqlServer.Show();
+        }
     }
 }

@@ -13,7 +13,6 @@ namespace MBM.BL.Data
     {
         public AddRecordEventHandler AddRecordEventHandler = new AddRecordEventHandler();
 
-        public WaitEventHandler WaitEvent = new WaitEventHandler();
 
         /// <summary>
         /// privately set instance of the repository
@@ -103,7 +102,10 @@ namespace MBM.BL.Data
             }
 
         }
-
+        /// <summary>
+        /// Adding List of records into SQL database (bulk)
+        /// </summary>
+        /// <param name="stock"></param>
         public async void AddRecord(List<Stock> stock)
         {
             try
@@ -119,32 +121,21 @@ namespace MBM.BL.Data
                 {
                     for (int i = 0; i < stock.Count; i++)
                     {
-                        // int existingRecord = 0;
-                        // foreach (var item in Stocks)
-                        // {
-                        //     if (stock[i].StockSymbol == item.StockSymbol && stock[i].Date == item.Date)
-                        //     {
-                        //         existingRecord++;
-                        //     }
-                        // }
-                        // if (existingRecord == 0)
-                        // {
 
-                            SqlCommand command = new SqlCommand(query, connection);
-                            command.Parameters.AddWithValue("@StockExchange", stock[i].StockExchange);
-                            command.Parameters.AddWithValue("@StockSymbol", stock[i].StockSymbol);
-                            command.Parameters.AddWithValue("@Date", stock[i].Date);
-                            command.Parameters.AddWithValue("@StockPriceOpen", stock[i].StockPriceOpen);
-                            command.Parameters.AddWithValue("@StockPriceHigh", stock[i].StockPriceHigh);
-                            command.Parameters.AddWithValue("@StockPriceLow", stock[i].StockPriceLow);
-                            command.Parameters.AddWithValue("@StockPriceClose", stock[i].StockPriceClose);
-                            command.Parameters.AddWithValue("@StockVolume", stock[i].StockVolume);
-                            command.Parameters.AddWithValue("@StockPriceAdjClose", stock[i].StockPriceAdjClose);
+                        SqlCommand command = new SqlCommand(query, connection);
+                        command.Parameters.AddWithValue("@StockExchange", stock[i].StockExchange);
+                        command.Parameters.AddWithValue("@StockSymbol", stock[i].StockSymbol);
+                        command.Parameters.AddWithValue("@Date", stock[i].Date);
+                        command.Parameters.AddWithValue("@StockPriceOpen", stock[i].StockPriceOpen);
+                        command.Parameters.AddWithValue("@StockPriceHigh", stock[i].StockPriceHigh);
+                        command.Parameters.AddWithValue("@StockPriceLow", stock[i].StockPriceLow);
+                        command.Parameters.AddWithValue("@StockPriceClose", stock[i].StockPriceClose);
+                        command.Parameters.AddWithValue("@StockVolume", stock[i].StockVolume);
+                        command.Parameters.AddWithValue("@StockPriceAdjClose", stock[i].StockPriceAdjClose);
 
-                            await command.ExecuteNonQueryAsync();
+                        await command.ExecuteNonQueryAsync();
 
-                            AddRecordEventHandler.RecordCountEvent();
-                       // }
+                        AddRecordEventHandler.RecordCountEvent();
                     }
                 }
 
@@ -166,15 +157,23 @@ namespace MBM.BL.Data
         {
             List<Stock> stocks = new List<Stock>();
             string query = $"Select * from [MoneyBMine].[dbo].[{TableName}]";
-            SqlConnection connection = new SqlConnection(sqlConnection);
-            connection.Open();
-            if (connection.State == ConnectionState.Open)
+            try
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                await StockReader(stocks, command);
+
+                SqlConnection connection = new SqlConnection(sqlConnection);
+                connection.Open();
+                if (connection.State == ConnectionState.Open)
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    await StockReader(stocks, command);
+                }
+                connection.Close();
+                return stocks;
             }
-            connection.Close();
-            return stocks;
+            catch (Exception ex)
+            {
+                throw new Exception("Unable to retrieve data from database", ex);
+            }
         }
 
         /// <summary>
@@ -258,13 +257,26 @@ namespace MBM.BL.Data
         /// </summary>
         /// <param name="date"></param>
         /// <returns>A list of records for a specified date</returns>
-        public async Task<List<Stock>> GetByDate(DateTime date)
+        public async Task<List<Stock>> GetByDate(DateTime date, string symbol)
         {
-            List<Stock> stocks = new List<Stock>();
-            if (date != null)
+            try
             {
+                List<Stock> stocks = new List<Stock>();
+                string query = "";
                 string dateString = date.ToString("yyyy-MM-dd");
-                string query = $"Select * from [MoneyBMine].[dbo].[{TableName}] where [Date] ='{dateString}' order by [Date] desc";
+                if (date != null && symbol == string.Empty)
+                {
+                    query = $"Select * from [MoneyBMine].[dbo].[{TableName}] where [Date] ='{dateString}' order by [Date] desc";
+                }
+                else
+                {
+                    // if a stock symbol was slected this query string is used.
+                    if (date != null && symbol != string.Empty)
+                    {
+                        query = $"Select * from [MoneyBMine].[dbo].[{TableName}] where [Date] ='{dateString}' AND StockSymbol = '{symbol}' order by [Date] desc";
+                    }
+                }
+
                 using (SqlConnection connection = new SqlConnection(sqlConnection))
                 {
                     connection.Open();
@@ -272,43 +284,91 @@ namespace MBM.BL.Data
                     await StockReader(stocks, command);
                     connection.Close();
                 }
+                return stocks;
             }
-
-            return stocks;
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to return records for the date selected", ex);
+            }
         }
 
-        public async Task<List<Stock>> GetByDate(DateTime startDate, DateTime finishDate)
+        /// <summary>
+        /// Gets all records bewtween the dates specified.
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="finishDate"></param>
+        /// <returns>a List of all record between specified dates.</returns>
+        public async Task<List<Stock>> GetByDate(DateTime startDate, DateTime finishDate, string symbol)
         {
             List<Stock> stocks = new List<Stock>();
             string finishDateString;
             string startDateString;
-
-            if (startDate != null)
+            try
             {
-                if (startDate > finishDate)
+                string query = "";
+                if (startDate != null)
                 {
-                    startDateString = finishDate.ToString("yyyy-MM-dd");
-                    finishDateString = startDate.ToString("yyyy-MM-dd");
+                    if (startDate > finishDate)
+                    {
+                        startDateString = finishDate.ToString("yyyy-MM-dd");
+                        finishDateString = startDate.ToString("yyyy-MM-dd");
 
 
+                    }
+                    else
+                    {
+
+                        startDateString = startDate.ToString("yyyy-MM-dd");
+                        finishDateString = finishDate.ToString("yyyy-MM-dd");
+                    }
+
+                    if (symbol == string.Empty)
+                    {
+
+                    query = $"SELECT * FROM [MoneyBMine].[dbo].[{TableName}] WHERE [Date] >='{startDateString}' AND [Date] <= '{finishDateString}' ORDER BY [Date] desc";
+                    }
+                    else
+                    {
+                        query = $"SELECT * FROM [MoneyBMine].[dbo].[{TableName}] WHERE [Date] >='{startDateString}' AND [Date] <= '{finishDateString}' AND StockSymbol = '{symbol} 'ORDER BY [Date] desc";
+                    }
+                    using (SqlConnection connection = new SqlConnection(sqlConnection))
+                    {
+                        connection.Open();
+                        SqlCommand command = new SqlCommand(query, connection);
+                        await StockReader(stocks, command);
+                        connection.Close();
+                    }
                 }
-                else
-                {
-
-                    startDateString = startDate.ToString("yyyy-MM-dd");
-                    finishDateString = finishDate.ToString("yyyy-MM-dd");
-                }
-
-                string query = $"SELECT * FROM [MoneyBMine].[dbo].[{TableName}] WHERE [Date] >='{startDateString}' AND [Date] <= '{finishDateString}' ORDER BY [Date] desc";
-                using (SqlConnection connection = new SqlConnection(sqlConnection))
-                {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(query, connection);
-                    await StockReader(stocks, command);
-                    connection.Close();
-                }
+                return stocks;
             }
-            return stocks;
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to return records between dates selected", ex);
+            }
+        }
+
+
+        public async Task<List<string>> GetStockSymbols()
+        {
+            List<Stock> stocks = new List<Stock>();
+            List<string> symbols = new List<string>();
+            symbols.Add("");
+
+            string query = $"Select Distinct StockSymbol From [MoneyBMine].[dbo].[{TableName}]";
+            using (SqlConnection connection = new SqlConnection(sqlConnection))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(query, connection);
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (reader.Read())
+                    {
+                        symbols.Add((string)reader["StockSymbol"]);
+                    }
+                }
+
+            }
+            return symbols;
         }
     }
 }

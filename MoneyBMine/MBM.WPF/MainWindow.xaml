@@ -24,7 +24,8 @@
                 <MenuItem Name="miHighLow" Header="High / Low Ratios" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20"/>
             </MenuItem>
             <MenuItem Name="miSQL" Header="SQL" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Height="30" FontSize="14" FontWeight="Bold">
-                <MenuItem Name="miAddRecord" Header="Add New Record" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" FontSize="14" FontWeight="Bold" Click="MiAddRecord_Click"/>
+                <MenuItem Name="miSQLServer" Header="SQL Server Utilization" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" FontSize="14" FontWeight="Bold" Click="MiSQLServer_Click"/>
+                <MenuItem Name="miAddRecord" Header="Add New Record" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" FontSize="14" FontWeight="Bold" Click="MiAddRecord_Click"/>
             </MenuItem>
 
             <MenuItem Name="miExit" Header="Exit" Margin="5" Height="30" Width="50"  Background="OrangeRed" FontSize="14" FontWeight="Bold" Click="MiExit_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
@@ -38,8 +39,8 @@
         <ComboBox Name="cbStartDate" HorizontalAlignment="Left" Margin="140,73,0,0" VerticalAlignment="Top" Width="130" FontSize="14" FontWeight="Bold"/>
         <Label Name="lblFinishDate" Content="Select a finish date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="280,50,0,0" FontSize="14" FontWeight="Bold"/>
         <ComboBox Name="cbFinishDate" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="280,73,0,0" Width="130" FontSize="14" FontWeight="Bold"/>
-
-
+        <Label Name="lblStockSymbol" Content="Stock Symbol" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="420,50,0,0" FontSize="14" FontWeight="Bold"/>
+        <ComboBox Name="cbStockSymbol" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="420,73,0,0" Width="130" FontSize="14" FontWeight="Bold" />
         <Button Name="btnSearch" Content="Search" HorizontalAlignment="Left" Margin="50,65,0,0" VerticalAlignment="Top" Width="75" FontSize="14" FontWeight="Bold" Height="30" Click="BtnSearch_Click"/>
 
     </Grid>

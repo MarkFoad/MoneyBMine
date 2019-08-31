@@ -47,8 +47,8 @@ namespace MBM.WPF
             finished.AddRecordEvent += FinishedEvent;
 
 
-            HideFilterOptions();
-
+            //HideFilterOptions();
+            ShowAllFilters();
             LoadData();
 
         }
@@ -73,6 +73,17 @@ namespace MBM.WPF
             lblStartDate.Visibility = Visibility.Hidden;
             cbStartDate.Visibility = Visibility.Hidden;
             btnSearch.Visibility = Visibility.Hidden;
+        }
+
+        private void ShowAllFilters()
+        {
+            lblStockSymbol.Visibility = Visibility.Visible;
+            cbStockSymbol.Visibility = Visibility.Visible;
+            lblFinishDate.Visibility = Visibility.Visible;
+            cbFinishDate.Visibility = Visibility.Visible;
+            lblStartDate.Visibility = Visibility.Visible;
+            cbStartDate.Visibility = Visibility.Visible;
+            btnSearch.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -236,6 +247,18 @@ namespace MBM.WPF
             cbStockSymbol.Visibility = Visibility.Visible;
             btnSearch.Visibility = Visibility.Visible;
         }
+        private void MiSymbol_Click(object sender, RoutedEventArgs e)
+        {
+            FilterSelection = "GetBySymbol";
+            lblFinishDate.Visibility = Visibility.Hidden;
+            cbFinishDate.Visibility = Visibility.Hidden;
+            lblStartDate.Visibility = Visibility.Hidden;
+            cbStartDate.Visibility = Visibility.Hidden;
+            lblStockSymbol.Visibility = Visibility.Visible;
+            cbStockSymbol.Visibility = Visibility.Visible;
+            btnSearch.Visibility = Visibility.Visible;
+
+        }
 
         /// <summary>
         /// Searches for records matching the parameters selected.
@@ -244,25 +267,60 @@ namespace MBM.WPF
         /// <param name="e"></param>
         private async void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-            if (FilterSelection != string.Empty)
+            CheckFilters();
+
+            switch (FilterSelection)
             {
+                case "GetByDate":
+                    dgDisplay.ItemsSource = await sqlRepository.GetByDate(DateTime.Parse(cbStartDate.Text), cbStockSymbol.Text);
+                    break;
+                case "GetBetweenDates":
 
-                switch (FilterSelection)
-                {
-                    case "GetByDate":
-                        dgDisplay.ItemsSource = await sqlRepository.GetByDate(DateTime.Parse(cbStartDate.Text), cbStockSymbol.Text);
-                        break;
-                    case "GetBetweenDates":
-                        dgDisplay.ItemsSource = await sqlRepository.GetByDate(DateTime.Parse(cbStartDate.Text), DateTime.Parse(cbFinishDate.Text),cbStockSymbol.Text);
-                        break;
+                    dgDisplay.ItemsSource = await sqlRepository.GetByDate(DateTime.Parse(cbStartDate.Text), DateTime.Parse(cbFinishDate.Text), cbStockSymbol.Text);
+                    break;
+                case "GetBySymbol":
+                    dgDisplay.ItemsSource = await sqlRepository.GetBySymbol(cbStockSymbol.Text);
+                    break;
 
-                    case "":
-                        break;
 
-                }
+                case "":
+                    dgDisplay.ItemsSource = await sqlRepository.GetAll();
+                    break;
+
             }
 
 
+        }
+
+        private void CheckFilters()
+        {
+            DateTime startDate;
+            DateTime finishDate;
+
+            if (cbStartDate.Text == string.Empty && cbFinishDate.Text == string.Empty && cbStockSymbol.Text == string.Empty)
+            {
+                FilterSelection = "";
+            }
+            else if (cbStartDate.Text == string.Empty && cbFinishDate.Text == string.Empty && cbStockSymbol.Text != string.Empty)
+            {
+                FilterSelection = "GetBySymbol";
+            }
+            else if (cbStartDate.Text == string.Empty && cbFinishDate.Text != string.Empty)
+            {
+                startDate = DateTime.Parse(cbFinishDate.Text);
+                FilterSelection = "GetByDate";
+            }
+            else if (cbStartDate.Text != string.Empty && cbFinishDate.Text == string.Empty)
+            {
+                startDate = DateTime.Parse(cbStartDate.Text);
+                FilterSelection = "GetByDate";
+            }
+            else if (cbStartDate.Text != string.Empty && cbFinishDate.Text != string.Empty)
+            {
+                startDate = DateTime.Parse(cbStartDate.Text);
+                finishDate = DateTime.Parse(cbFinishDate.Text);
+                FilterSelection = "GetBetweenDates";
+            }
         }
 
         /// <summary>
@@ -275,5 +333,6 @@ namespace MBM.WPF
             SQLServer sqlServer = new SQLServer();
             sqlServer.Show();
         }
+
     }
 }

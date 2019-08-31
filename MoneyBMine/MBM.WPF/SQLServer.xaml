@@ -11,5 +11,6 @@
         <Label Name="lblCPU" Content="CPU Utilization" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,100,0,0" FontSize="20" FontWeight="Bold"/>
         <Label Name="lblMemory" Content="Memory Utilization" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,150,0,0" FontSize="20" FontWeight="Bold"/>
         <Button Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="50,300,0,0" VerticalAlignment="Top" Width="100" FontSize="20" FontWeight="Bold" Click="BtnClose_Click"/>
+        <Button Name="btnRefresh" Content="Refresh" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,300,0,0" Width="100" FontSize="20" FontWeight="Bold" Click="BtnRefresh_Click"/>
     </Grid>
 </Window>

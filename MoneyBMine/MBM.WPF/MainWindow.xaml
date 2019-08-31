@@ -17,12 +17,13 @@
                 <!--<MenuItem Name="miAddRecord" Header="New Record" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" FontSize="14" FontWeight="Bold"/>-->
                 <MenuItem Name="miUpdateSQL" Header="Update SQL from CSV" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" FontSize="14" Click="MiUpdateSQL_Click"/>
             </MenuItem>
-            <MenuItem Name="miFilter" Header="Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Height="30" FontSize="14" FontWeight="Bold">
+            <!--<MenuItem Name="miFilter" Header="Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Height="30" FontSize="14" FontWeight="bold">
+                <MenuItem Name="miSymbol" Header="Filter by Stock Symbol" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Click="MiSymbol_Click" />
                 <MenuItem Name="miBydate" Header="Filter By date" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Click="MiBydate_Click" />
                 <MenuItem Name="miBetweenDates" Header="Filter Between Dates" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Click="MiBetweenDates_Click"/>
                 <MenuItem Name="miStockMovement" Header="Stock Movements" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20"/>
                 <MenuItem Name="miHighLow" Header="High / Low Ratios" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20"/>
-            </MenuItem>
+            </MenuItem>-->
             <MenuItem Name="miSQL" Header="SQL" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Height="30" FontSize="14" FontWeight="Bold">
                 <MenuItem Name="miSQLServer" Header="SQL Server Utilization" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" FontSize="14" FontWeight="Bold" Click="MiSQLServer_Click"/>
                 <MenuItem Name="miAddRecord" Header="Add New Record" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" FontSize="14" FontWeight="Bold" Click="MiAddRecord_Click"/>
@@ -30,18 +31,18 @@
 
             <MenuItem Name="miExit" Header="Exit" Margin="5" Height="30" Width="50"  Background="OrangeRed" FontSize="14" FontWeight="Bold" Click="MiExit_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
         </Menu>
-        <DataGrid x:Name="dgDisplay" HorizontalAlignment="Left" Height="{x:Static SystemParameters.PrimaryScreenHeight}" Margin="50,100,50,200" VerticalAlignment="Top" Width="{x:Static SystemParameters.PrimaryScreenWidth}" AutoGeneratingColumn="DgDisplay_AutoGeneratingColumn" FontSize="14"/>
+        <DataGrid x:Name="dgDisplay" HorizontalAlignment="Left" Height="{x:Static SystemParameters.PrimaryScreenHeight}" Margin="50,110,50,200" VerticalAlignment="Top" Width="{x:Static SystemParameters.PrimaryScreenWidth}" AutoGeneratingColumn="DgDisplay_AutoGeneratingColumn" FontSize="14"/>
         <Button Name="btnGetAll" Content="Get All - SQL" HorizontalAlignment="Left" Margin="766,72,0,0" VerticalAlignment="Top" Width="100" FontSize="14" Click="BtnGetAll_Click" RenderTransformOrigin="1.55,0.217" />
         <Button Name="btnGetAllcsv" Content="Get All -CSV" HorizontalAlignment="Left" VerticalAlignment="top" Margin="900,72,0,0" FontSize="14" Click="BtnGetAllcsv_Click"/>
         <ProgressBar Name="pbProgress" HorizontalAlignment="Center" VerticalAlignment="Center" Width="800" Height="50"/>
         <Label Name="lblProgress" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        <Label Name="lblStartDate" Content="Select a date" HorizontalAlignment="Left" Margin="140,50,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold"/>
-        <ComboBox Name="cbStartDate" HorizontalAlignment="Left" Margin="140,73,0,0" VerticalAlignment="Top" Width="130" FontSize="14" FontWeight="Bold"/>
-        <Label Name="lblFinishDate" Content="Select a finish date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="280,50,0,0" FontSize="14" FontWeight="Bold"/>
-        <ComboBox Name="cbFinishDate" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="280,73,0,0" Width="130" FontSize="14" FontWeight="Bold"/>
-        <Label Name="lblStockSymbol" Content="Stock Symbol" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="420,50,0,0" FontSize="14" FontWeight="Bold"/>
-        <ComboBox Name="cbStockSymbol" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="420,73,0,0" Width="130" FontSize="14" FontWeight="Bold" />
-        <Button Name="btnSearch" Content="Search" HorizontalAlignment="Left" Margin="50,65,0,0" VerticalAlignment="Top" Width="75" FontSize="14" FontWeight="Bold" Height="30" Click="BtnSearch_Click"/>
+        <Label Name="lblStartDate" Content="Start Date" HorizontalAlignment="Left" Margin="280,50,0,0" VerticalAlignment="Top" FontSize="14" FontWeight="Bold"/>
+        <ComboBox Name="cbStartDate" HorizontalAlignment="Left" Margin="280,73,0,0" VerticalAlignment="Top" Width="130" FontSize="14" FontWeight="Bold"/>
+        <Label Name="lblFinishDate" Content="Finish Date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="420,50,0,0" FontSize="14" FontWeight="Bold"/>
+        <ComboBox Name="cbFinishDate" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="420,73,0,0" Width="130" FontSize="14" FontWeight="Bold"/>
+        <Label Name="lblStockSymbol" Content="Stock Symbol" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="140,50,0,0" FontSize="14" FontWeight="Bold"/>
+        <ComboBox Name="cbStockSymbol" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="140,73,0,0" Width="130" FontSize="14" FontWeight="Bold" />
+        <Button Name="btnSearch" Content="Search" HorizontalAlignment="Left" Margin="50,68,0,0" VerticalAlignment="Top" Width="75" FontSize="14" FontWeight="Bold" Height="30" Click="BtnSearch_Click"/>
 
     </Grid>
 </Window>

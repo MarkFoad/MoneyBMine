@@ -252,6 +252,20 @@ namespace MBM.BL.Data
             }
         }
 
+        public async Task<List<Stock>> GetBySymbol(string symbol)
+        {
+            List<Stock> stocks = new List<Stock>();
+            string query = $"Select * from [MoneyBMine].[dbo].[{TableName}] where [StockSymbol] ='{symbol}' order by [Date] desc";
+            using (SqlConnection connection = new SqlConnection(sqlConnection))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(query, connection);
+                await StockReader(stocks, command);
+                connection.Close();
+            }
+            return stocks;
+        }
+
         /// <summary>
         /// Gets all the records for the date specified
         /// </summary>
@@ -300,6 +314,7 @@ namespace MBM.BL.Data
         /// <returns>a List of all record between specified dates.</returns>
         public async Task<List<Stock>> GetByDate(DateTime startDate, DateTime finishDate, string symbol)
         {
+
             List<Stock> stocks = new List<Stock>();
             string finishDateString;
             string startDateString;
@@ -325,7 +340,7 @@ namespace MBM.BL.Data
                     if (symbol == string.Empty)
                     {
 
-                    query = $"SELECT * FROM [MoneyBMine].[dbo].[{TableName}] WHERE [Date] >='{startDateString}' AND [Date] <= '{finishDateString}' ORDER BY [Date] desc";
+                        query = $"SELECT * FROM [MoneyBMine].[dbo].[{TableName}] WHERE [Date] >='{startDateString}' AND [Date] <= '{finishDateString}' ORDER BY [Date] desc";
                     }
                     else
                     {
@@ -370,5 +385,55 @@ namespace MBM.BL.Data
             }
             return symbols;
         }
+
+        public async Task<double> GetMemoryUtilization()
+        {
+            List<double> memoryInUse = new List<double>();
+            string query = "declare @PhysicalMemoryInUseKB bigint declare @totalSystemMemoryBytes bigint " +
+                "SELECT @PhysicalMemoryInUseKB = physical_memory_in_use_kb from sys.dm_os_process_memory " +
+                "Select @totalSystemMemoryBytes = physical_memory_kb from sys.dm_os_sys_info " +
+                "select convert (float, @physicalMemoryInUseKB) * 1024 / convert(float, @totalSystemMemoryBytes) as memory_usage";
+
+            using (SqlConnection connection = new SqlConnection(sqlConnection))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(query, connection);
+                using(SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (reader.Read())
+                    {
+                        double memory;
+                        memory =(double)reader["memory_usage"];
+
+                        memoryInUse.Add(memory);
+                    }
+                }
+            }
+            return memoryInUse.FirstOrDefault();
+        }
+
+        public async Task<double> GetHDDFree()
+        {
+            List<double> spaceFree = new List<double>();
+            string query = $"SELECT Distinct CONVERT(float,dovs.available_bytes/1048576.0) AS FreeSpaceInMB FROM sys.master_files mf " +
+                $"CROSS APPLY sys.dm_os_volume_stats(mf.database_id, mf.FILE_ID) dovs";
+            using (SqlConnection connection = new SqlConnection(sqlConnection))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(query, connection);
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (reader.Read())
+                    {
+                        double memory;
+                        memory = (double)reader["FreeSpaceInMB"];
+
+                        spaceFree.Add(memory);
+                    }
+                }
+            }
+            return spaceFree.FirstOrDefault();
+        }
+
     }
 }

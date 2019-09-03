@@ -386,30 +386,43 @@ namespace MBM.BL.Data
             return symbols;
         }
 
+        /// <summary>
+        /// Gets the memory usage from the SQLK database server 
+        /// </summary>
+        /// <returns></returns>
         public async Task<double> GetMemoryUtilization()
         {
             List<double> memoryInUse = new List<double>();
-            string query = "declare @PhysicalMemoryInUseKB bigint declare @totalSystemMemoryBytes bigint " +
-                "SELECT @PhysicalMemoryInUseKB = physical_memory_in_use_kb from sys.dm_os_process_memory " +
-                "Select @totalSystemMemoryBytes = physical_memory_kb from sys.dm_os_sys_info " +
-                "select convert (float, @physicalMemoryInUseKB) * 1024 / convert(float, @totalSystemMemoryBytes) as memory_usage";
-
-            using (SqlConnection connection = new SqlConnection(sqlConnection))
+            try
             {
-                connection.Open();
-                SqlCommand command = new SqlCommand(query, connection);
-                using(SqlDataReader reader = await command.ExecuteReaderAsync())
-                {
-                    while (reader.Read())
-                    {
-                        double memory;
-                        memory =(double)reader["memory_usage"];
 
-                        memoryInUse.Add(memory);
+                string query = "declare @PhysicalMemoryInUseKB bigint declare @totalSystemMemoryBytes bigint " +
+                    "SELECT @PhysicalMemoryInUseKB = physical_memory_in_use_kb from sys.dm_os_process_memory " +
+                    "Select @totalSystemMemoryBytes = physical_memory_kb from sys.dm_os_sys_info " +
+                    "select convert (float, @physicalMemoryInUseKB) * 1024 / convert(float, @totalSystemMemoryBytes) as memory_usage";
+
+                using (SqlConnection connection = new SqlConnection(sqlConnection))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand(query, connection);
+                    using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                    {
+                        while (reader.Read())
+                        {
+                            double memory;
+                            memory = (double)reader["memory_usage"];
+
+                            memoryInUse.Add(memory);
+                        }
                     }
+                    connection.Close();
                 }
+                return memoryInUse.FirstOrDefault();
             }
-            return memoryInUse.FirstOrDefault();
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to return Memory utilization values!", ex);
+            }
         }
 
         public async Task<double> GetHDDFree()

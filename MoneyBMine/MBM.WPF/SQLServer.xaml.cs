@@ -38,7 +38,7 @@ namespace MBM.WPF
         /// </summary>
         private async void Load()
         {
-
+            // Returns the HDD Free space form SQL Server 
             HDDSpaceFree = await sqlRepository.GetHDDFree();
             double hddround = Math.Round(HDDSpaceFree * 100) / 100;
             // Retrieves the memory currently being utilized

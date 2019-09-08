@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{75C11F0B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBM.WPF.UnitTests", "MBM.WPF.UnitTests\MBM.WPF.UnitTests.csproj", "{02ED32D4-159C-4A59-A7C2-C2576AEB6283}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBM.WebAPI", "MBM.WebAPI\MBM.WebAPI.csproj", "{4742174A-9B3F-49E5-8CD1-8C7276A9F4C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBM.WebAPI", "MBM.WebAPI\MBM.WebAPI.csproj", "{34642703-940E-481F-8F1D-EB0CF0D8428D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +31,10 @@ Global
 		{02ED32D4-159C-4A59-A7C2-C2576AEB6283}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02ED32D4-159C-4A59-A7C2-C2576AEB6283}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02ED32D4-159C-4A59-A7C2-C2576AEB6283}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4742174A-9B3F-49E5-8CD1-8C7276A9F4C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4742174A-9B3F-49E5-8CD1-8C7276A9F4C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4742174A-9B3F-49E5-8CD1-8C7276A9F4C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4742174A-9B3F-49E5-8CD1-8C7276A9F4C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34642703-940E-481F-8F1D-EB0CF0D8428D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34642703-940E-481F-8F1D-EB0CF0D8428D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34642703-940E-481F-8F1D-EB0CF0D8428D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34642703-940E-481F-8F1D-EB0CF0D8428D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

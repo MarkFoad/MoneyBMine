@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Threading.Tasks;
 
 namespace MBM.WebAPI.Models
-{
+{  
     /// <summary>
-    /// A Stock Exchange Record
-    /// </summary>
-    public class Stock : DataObject<int>
+   /// Model for Stock Records.
+   /// </summary>
+    public class Stock
     {
         /// <summary>
-        /// Gets or sets the Stock Exchange value.
+        /// Gets or sets the Stock Record Id
+        /// </summary>
+        public int Id { get; set; }
+        /// <summary>
+        /// Gets or sets the Stock Exchange  of the record
         /// </summary>
         public string StockExchange { get; set; }
         /// <summary>
@@ -46,5 +50,6 @@ namespace MBM.WebAPI.Models
         /// Gets or sets the Adjusted Stock Price Close
         /// </summary>
         public double StockPriceAdjClose { get; set; }
+
     }
 }

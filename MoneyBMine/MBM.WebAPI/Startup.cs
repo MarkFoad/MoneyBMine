@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MBM.WebAPI.Data;
+using MBM.DL.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,33 +14,46 @@ using Microsoft.Extensions.Options;
 
 namespace MBM.WebAPI
 {
+    /// <summary>
+    /// The Start up file
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Start up configuration
+        /// </summary>
+        /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
-            _config = configuration;
+            Configuration = configuration;
         }
-
-
-        private IConfiguration _config { get; }
+        /// <summary>
+        /// Gets the configuration settings
+        /// </summary>
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// Services to be run for the program 
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddSingleton(_config);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddSingleton<IStockRepository, StockRepository>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
+        
+        /// <summary>
+        /// Configure the application
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole(_config.GetSection("Logging"));
-            loggerFactory.AddDebug();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -51,10 +64,9 @@ namespace MBM.WebAPI
             }
 
             app.UseHttpsRedirection();
-            app.UseMvc(config =>
+            app.UseMvc(Config =>
             {
-
-            }    );
+            });
         }
     }
 }

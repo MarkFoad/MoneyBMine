@@ -1,12 +1,12 @@
-﻿namespace MBM.WebAPI.Data
+﻿namespace MBM.DL.Data
 {
     /// <summary>
-    /// Interface for the base repository
+    /// Base Repository Interface
     /// </summary>
     public interface IBaseRepository
     {
         /// <summary>
-        /// Gets or sets the table name for the repository to use.
+        /// Gets or sets the Table Name to be used.
         /// </summary>
         string TableName { get; set; }
     }

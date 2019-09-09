@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MBM.WebAPI</name>
+    </assembly>
+    <members>
+        <member name="T:MBM.WebAPI.Controllers.StocksController">
+            <summary>
+            The Stock Controller
+            </summary>
+        </member>
+        <member name="M:MBM.WebAPI.Controllers.StocksController.#ctor(MBM.DL.Data.IStockRepository)">
+            <summary>
+            Initializes an instance of the Stock Controller
+            </summary>
+            <param name="stockRepository"></param>
+        </member>
+        <member name="M:MBM.WebAPI.Controllers.StocksController.Get">
+            <summary>
+            GEt all stock exchange records
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MBM.WebAPI.Startup">
+            <summary>
+            The Start up file
+            </summary>
+        </member>
+        <member name="M:MBM.WebAPI.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Start up configuration
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:MBM.WebAPI.Startup.Configuration">
+            <summary>
+            Gets the configuration settings
+            </summary>
+        </member>
+        <member name="M:MBM.WebAPI.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Services to be run for the program 
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:MBM.WebAPI.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
+            <summary>
+            Configure the application
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+    </members>
+</doc>

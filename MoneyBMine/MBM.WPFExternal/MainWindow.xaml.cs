@@ -19,15 +19,21 @@ using System.Windows.Shapes;
 
 namespace MBM.WPFExternal
 {
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+
+        private readonly IStockRepository stockRepository;
+
+        public MainWindow(IStockRepository stockRepository)
         {
+            this.stockRepository = stockRepository;
             InitializeComponent();
-            PopulateForm();
+            
+            //PopulateForm();
         }
 
 

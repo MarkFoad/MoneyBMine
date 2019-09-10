@@ -14,9 +14,9 @@ namespace MBM.DL.Data
         /// <summary>
         /// Sets the Table Name of the database to use for this repository.
         /// </summary>
-        //private string tableName = "StockExchange";
-
-        private string tableName = "NYSEData";
+        private string tableName = "StockExchange"; 
+        
+        //private string tableName = "NYSEData";
 
         public StockRepository()
         {

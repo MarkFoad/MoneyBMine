@@ -14,38 +14,7 @@ namespace MBM.WPFExternal.Data
     /// </summary>
     public class StockRepository : BaseReadOnlyRepository<Stock>, IStockRepository
     {
-        /// <summary>
-        /// Privately set instance of the Repository
-        /// </summary>
-        private static StockRepository instance;
-
-        /// <summary>
-        /// The model to be locked while getting the instance
-        /// </summary>
-        private static readonly Stock padlock = new Stock();
-
-        /// <summary>
-        /// Creating an instance of the repository
-        /// </summary>
-        public static StockRepository Instance
-        {
-            get
-            {
-                if(instance == null)
-                {
-                    lock (padlock)
-                    {
-                        if(instance == null)
-                        {
-                            instance = new StockRepository();
-                        }
-                    }
-                }
-                return instance;
-            }
-        }
-
-
+        
         public StockRepository(APIAccessService apiService) : base (apiService)
         {
             EndPointURI = "Stock/";

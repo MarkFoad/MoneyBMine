@@ -60,8 +60,8 @@ namespace MBM.BL.Data
         /// <summary>
         /// Gets or sets the- table name to be used.
         /// </summary>
-        //private string TableName = "StockExchange";
-        private string TableName = "NYSEData";
+        private string TableName = "StockExchange";
+        //private string TableName = "NYSEData";
 
 
         /// <summary>

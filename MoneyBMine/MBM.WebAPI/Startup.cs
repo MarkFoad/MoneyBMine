@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 
 namespace MBM.WebAPI
 {
@@ -43,9 +44,13 @@ namespace MBM.WebAPI
 
             services.AddSingleton<IStockRepository, StockRepository>();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MBM.WebAPI", Version = "v1" });
+            });
         }
 
-        
+
         /// <summary>
         /// Configure the application
         /// </summary>
@@ -62,7 +67,12 @@ namespace MBM.WebAPI
             {
                 app.UseHsts();
             }
-
+            // Enables Middleware to server generated swagger as Json endpoint.
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/Swagger/v1/swagger.json", "MBM.WebAPI V1");
+            });
             app.UseHttpsRedirection();
             app.UseMvc(Config =>
             {

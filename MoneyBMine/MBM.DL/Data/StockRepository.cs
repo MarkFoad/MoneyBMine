@@ -14,7 +14,10 @@ namespace MBM.DL.Data
         /// <summary>
         /// Sets the Table Name of the database to use for this repository.
         /// </summary>
-        private string tableName = "StockExchange";
+        //private string tableName = "StockExchange";
+
+        private string tableName = "NYSEData";
+
         public StockRepository()
         {
 
@@ -95,7 +98,7 @@ namespace MBM.DL.Data
         public async Task<List<string>> GetDate()
         {
             List<string> dates = new List<string>();
-            string query = $"Select Distinct Date From [MoneyBMine].[dbo].[{TableName}] Order By [Date] desc";
+            string query = $"SELECT Distinct Date From [MoneyBMine].[dbo].[{tableName}] Order By [Date] desc";
 
             try
             {
@@ -140,6 +143,33 @@ namespace MBM.DL.Data
                 connection.Close();
             }
             return stocks;
+        }
+
+        /// <summary>
+        /// List of Stock Symbols
+        /// </summary>
+        /// <returns>List of Stock Symbols</returns>
+        public async Task<List<string>> GetStockSymbols()
+        {
+            List<Stock> stocks = new List<Stock>();
+            List<string> symbols = new List<string>();
+            symbols.Add("");
+
+            string query = $"Select Distinct StockSymbol From [MoneyBMine].[dbo].[{TableName}]";
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(query, connection);
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (reader.Read())
+                    {
+                        symbols.Add((string)reader["StockSymbol"]);
+                    }
+                }
+
+            }
+            return symbols;
         }
     }
 }

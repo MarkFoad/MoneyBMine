@@ -31,12 +31,14 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Button x:Name="btnFile" Content=" File " Grid.Column="1" Grid.Row="1" Margin="5" Background="PaleTurquoise"/>
-        <Button x:Name="btnExit" Content=" Exit " Grid.Column="6" Grid.Row="1" Margin="5" Background="OrangeRed" Click="btnExit_Click"  />
-        <Button x:Name="btnSearch" Content="  Search  " Grid.Column="1" Grid.Row="2" />
-        <Label x:Name="lblDate" Content=" Date " Grid.Column="2" Grid.Row="2" Margin=" 5"/>
-        <ComboBox x:Name="cbDate" Grid.Column="2" Grid.Row="3" Margin="5" Width="100"/>
-        <Label x:Name="lblSymbol" Content=" Symbol " Grid.Column="3" Grid.Row="2" Margin="5"/>
-        <ComboBox x:Name="cbSymbol" Grid.Column="3" Grid.Row="3" Margin="5" Width="100" />
-        <DataGrid x:Name="dgDisplay" Grid.Column="1" Grid.ColumnSpan="7" Grid.Row="4" Grid.RowSpan="8"></DataGrid>
+        <Button x:Name="btnExit" Content=" Exit " Grid.Column="2" Grid.Row="1" Margin="5" Background="OrangeRed" Click="btnExit_Click"  />
+        <Button x:Name="btnSearch" Content="  Search  " Grid.Column="1" Grid.Row="2" Margin="5" Click="btnSearch_Click" />
+        <Label x:Name="lblStartDate" Content=" Start Date " Grid.Column="2" Grid.Row="2" Margin=" 5"/>
+        <ComboBox x:Name="cbStartDate" Grid.Column="2" Grid.Row="3" Margin="5" Width="150"/>
+        <Label x:Name="lblFinishDate" Content=" Finish Date " Grid.Column="3" Grid.Row="2" Margin=" 5"/>
+        <ComboBox x:Name="cbFinishDate" Grid.Column="3" Grid.Row="3" Margin="5" Width="150"/>
+        <Label x:Name="lblSymbol" Content=" Symbol " Grid.Column="4" Grid.Row="2" Margin="5"/>
+        <ComboBox x:Name="cbSymbol" Grid.Column="4" Grid.Row="3" Margin="5" Width="100" />
+        <DataGrid x:Name="dgDisplay" Grid.Column="1" Grid.ColumnSpan="7" Grid.Row="4" Grid.RowSpan="5"></DataGrid>
     </Grid>
 </Window>

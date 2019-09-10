@@ -38,6 +38,15 @@ namespace MBM.WebAPI.Controllers
             return await stockRepository.GetAll();
         }
 
+        /// <summary>
+        /// Gets distinct Dates
+        /// </summary>
+        /// <returns>List of Dates in string format</returns>
+        [HttpGet("GetDates")]
+        public async Task<List<string>> GetDates()
+        {
+            return await stockRepository.GetDate();
+        }
         // // GET: api/Stocks/5
         // [HttpGet("{id}", Name = "Get")]
         // public string Get(int id)

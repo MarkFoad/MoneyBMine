@@ -21,6 +21,30 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:MBM.WebAPI.Controllers.StocksController.GetDates">
+            <summary>
+            Gets distinct Dates
+            </summary>
+            <returns>List of Dates in string format</returns>
+        </member>
+        <member name="T:MBM.WebAPI.Program">
+            <summary>
+            Program APi startup
+            </summary>
+        </member>
+        <member name="M:MBM.WebAPI.Program.Main(System.String[])">
+            <summary>
+            Main Application Start up 
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:MBM.WebAPI.Program.CreateWebHostBuilder(System.String[])">
+            <summary>
+            
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
         <member name="T:MBM.WebAPI.Startup">
             <summary>
             The Start up file

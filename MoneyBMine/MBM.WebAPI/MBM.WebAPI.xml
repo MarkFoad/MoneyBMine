@@ -9,7 +9,7 @@
             The Stock Controller
             </summary>
         </member>
-        <member name="M:MBM.WebAPI.Controllers.StocksController.#ctor(MBM.DL.Data.IStockRepository)">
+        <member name="M:MBM.WebAPI.Controllers.StocksController.#ctor(MBM.DL.Data.IStockRepository,Microsoft.Extensions.Logging.ILogger{MBM.DL.Models.Stock})">
             <summary>
             Initializes an instance of the Stock Controller
             </summary>
@@ -50,11 +50,11 @@
             The Start up file
             </summary>
         </member>
-        <member name="M:MBM.WebAPI.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:MBM.WebAPI.Startup.#ctor(Microsoft.AspNetCore.Hosting.IHostingEnvironment)">
             <summary>
-            Start up configuration
+            Initializes a new instance of the <see cref="T:MBM.WebAPI.Startup" /> class.
             </summary>
-            <param name="configuration"></param>
+            <param name="env">The hosting environment</param>
         </member>
         <member name="P:MBM.WebAPI.Startup.Configuration">
             <summary>

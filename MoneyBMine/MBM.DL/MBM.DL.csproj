@@ -51,6 +51,8 @@
     <Compile Include="Models\DataObject.cs" />
     <Compile Include="Models\Stock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DataAccessService.cs" />
+    <Compile Include="Services\DataSource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

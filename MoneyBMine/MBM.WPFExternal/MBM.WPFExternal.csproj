@@ -111,7 +111,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppSettings.cs" />
+    <Compile Include="Data\IBaseRepository.cs" />
+    <Compile Include="Startup.cs" />
     <Compile Include="Data\IStockRepository.cs" />
     <Compile Include="Services\APIAccessService.cs" />
     <Page Include="MainWindow.xaml">
@@ -122,7 +123,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Data\BaseReadOnlyRepository.cs" />
+    <Compile Include="Data\BaseRepository.cs" />
     <Compile Include="Data\StockRepository.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

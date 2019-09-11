@@ -31,75 +31,84 @@ namespace MBM.WPFExternal
         public MainWindow(IStockRepository stockRepository)
         {
             this.stockRepository = stockRepository;
+            
             InitializeComponent();
             
             //PopulateForm();
         }
+        
 
-
-        private void PopulateForm()
+        private async void pop()
         {
-            
-            HttpClient client;
-            HttpResponseMessage response;
-           // GetAllRecords(out client, out response);
-            PopulateDateComboBox(out client, out response);
-            //cbDate.ItemsSource = await stockRepository.GetDate();
+            List<string> dgtemp =new List<string>() { "first", "second" ,"Last" };
+            dgDisplay.ItemsSource = dgtemp;
         }
+       
+
+
+       // private void PopulateForm()
+       // {
+       //     
+       //     HttpClient client;
+       //     HttpResponseMessage response;
+       //    // GetAllRecords(out client, out response);
+       //     // PopulateDateComboBox(out client, out response);
+       //     //cbDate.ItemsSource = await stockRepository.GetDate();
+       // }
 
         /// <summary>
         /// Populates the Start Date and Finish Date Combo Boxes
         /// </summary>
         /// <param name="client"></param>
         /// <param name="response"></param>
-        private void PopulateDateComboBox(out HttpClient client, out HttpResponseMessage response)
-        {
-            client = APIconnect();
-            response = client.GetAsync("api/stocks/GetDates").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                var dates = response.Content.ReadAsAsync<List<string>>().Result;
-
-                cbStartDate.ItemsSource = dates;
-                cbFinishDate.ItemsSource = dates;
-            }
-            else
-            {
-                MessageBox.Show($"Error Code {response.StatusCode} : Message - {response.ReasonPhrase}" );
-            }
-        }
+      //  private void PopulateDateComboBox(out HttpClient client, out HttpResponseMessage response)
+      //  {
+      //      client = APIconnect();
+      //      response = client.GetAsync("api/stocks/GetDates").Result;
+      //      if (response.IsSuccessStatusCode)
+      //      {
+      //          var dates = response.Content.ReadAsAsync<List<string>>().Result;
+      //
+      //          cbStartDate.ItemsSource = dates;
+      //          cbFinishDate.ItemsSource = dates;
+      //      }
+      //      else
+      //      {
+      //          MessageBox.Show($"Error Code {response.StatusCode} : Message - {response.ReasonPhrase}" );
+      //      }
+      //  }
 
         /// <summary>
         /// List of all Stock Records from API
         /// </summary>
         /// <param name="client"></param>
         /// <param name="response"></param>
-        private void GetAllRecords(out HttpClient client, out HttpResponseMessage response)
-        {
-            client = APIconnect();
-            response = client.GetAsync("api/stocks").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                List<Stock> stocks = response.Content.ReadAsAsync<List<Stock>>().Result;
-
-                dgDisplay.ItemsSource = stocks;
-            }
-            else
-            {
-                MessageBox.Show($"Error Code {response.StatusCode} : Message - {response.ReasonPhrase}");
-            }
-        }
+       // private void GetAllRecords(out HttpClient client, out HttpResponseMessage response)
+       // {
+       //     client = APIconnect();
+       //     response = client.GetAsync("api/stocks").Result;
+       //     if (response.IsSuccessStatusCode)
+       //     {
+       //         List<Stock> stocks = response.Content.ReadAsAsync<List<Stock>>().Result;
+       //
+       //         dgDisplay.ItemsSource = stocks;
+       //     }
+       //     else
+       //     {
+       //         MessageBox.Show($"Error Code {response.StatusCode} : Message - {response.ReasonPhrase}");
+       //     }
+       // }
         /// <summary>
         /// API connection
         /// </summary>
         /// <returns></returns>
-        private static HttpClient APIconnect()
-        {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri("http://localhost:8001");
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            return client;
-        }
+        //private static HttpClient APIconnect()
+        //{
+        //    HttpClient client = new HttpClient();
+        //    client.BaseAddress = new Uri("http://localhost:8001");
+        //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //    return client;
+        //}
 
         /// <summary>
         /// Exits the application

@@ -12,8 +12,9 @@ namespace MBM.WPFExternal.Data
     /// <summary>
     /// Stock Repository to use for data access.
     /// </summary>
-    public class StockRepository : BaseReadOnlyRepository<Stock>, IStockRepository
+    public class StockRepository : BaseRepository<Stock>, IStockRepository
     {
+        
         
         public StockRepository(APIAccessService apiService) : base (apiService)
         {

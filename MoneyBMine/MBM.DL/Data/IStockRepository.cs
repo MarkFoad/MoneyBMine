@@ -25,6 +25,6 @@ namespace MBM.DL.Data
         /// List of stock symbols
         /// </summary>
         /// <returns>Distinct list of symbols</returns>
-        Task<List<string>> GetStockSymbols();
+        // Task<List<string>> GetStockSymbols();
     }
 }

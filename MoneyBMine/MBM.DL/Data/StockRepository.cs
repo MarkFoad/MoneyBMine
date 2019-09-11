@@ -1,4 +1,5 @@
 ﻿using MBM.DL.Models;
+using MBM.DL.Services;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,11 +15,11 @@ namespace MBM.DL.Data
         /// <summary>
         /// Sets the Table Name of the database to use for this repository.
         /// </summary>
-        private string tableName = "StockExchange"; 
+        //private string tableName = "StockExchange"; 
         
         //private string tableName = "NYSEData";
 
-        public StockRepository()
+        public StockRepository(DataAccessService dataAccessService) : base(dataAccessService, DataSource.MoneyBMine.ToString(), "NYSEData")
         {
 
         }
@@ -31,7 +32,7 @@ namespace MBM.DL.Data
         public async Task<List<Stock>> GetAll()
         {
             List<Stock> stocks = new List<Stock>();
-            string query = $"Select * from [MoneyBMine].[dbo].[{tableName}]";
+            string query = $"Select * from [MoneyBMine].[dbo].[{TableName}]";
             try
             {
 
@@ -58,10 +59,11 @@ namespace MBM.DL.Data
         /// <returns>List of StockExchange Records.</returns>
         private static async Task StockReader(List<Stock> stocks, SqlCommand command)
         {
+
             try
             {
-
-                using (SqlDataReader row = await command.ExecuteReaderAsync())
+                
+                    using (SqlDataReader row = await command.ExecuteReaderAsync())
                 {
                     while (row.Read())
                     {
@@ -98,7 +100,7 @@ namespace MBM.DL.Data
         public async Task<List<string>> GetDate()
         {
             List<string> dates = new List<string>();
-            string query = $"SELECT Distinct Date From [MoneyBMine].[dbo].[{tableName}] Order By [Date] desc";
+            string query = $"SELECT Distinct Date From [MoneyBMine].[dbo].[{TableName}] Order By [Date] desc";
 
             try
             {
@@ -134,7 +136,7 @@ namespace MBM.DL.Data
         public async Task<List<Stock>> GetBySymbol(string symbol)
         {
             List<Stock> stocks = new List<Stock>();
-            string query = $"Select * from [MoneyBMine].[dbo].[{tableName}] where [StockSymbol] ='{symbol}' order by [Date] desc";
+            string query = $"Select * from [MoneyBMine].[dbo].[{TableName}] where [StockSymbol] ='{symbol}' order by [Date] desc";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();

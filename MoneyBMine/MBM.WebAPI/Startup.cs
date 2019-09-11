@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MBM.DL.Data;
+using MBM.DL.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -21,12 +22,19 @@ namespace MBM.WebAPI
     public class Startup
     {
         /// <summary>
-        /// Start up configuration
+        /// Initializes a new instance of the <see cref="Startup" /> class.
         /// </summary>
-        /// <param name="configuration"></param>
-        public Startup(IConfiguration configuration)
+        /// <param name="env">The hosting environment</param>
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(env.ContentRootPath)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true)
+            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+            .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
         /// <summary>
         /// Gets the configuration settings
@@ -42,12 +50,20 @@ namespace MBM.WebAPI
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddSingleton<IStockRepository, StockRepository>();
+            Dictionary<string, string> connectionStrings = new Dictionary<string, string>();
+            connectionStrings.Add(DataSource.MoneyBMine.ToString() ,Configuration.GetConnectionString("MoneyBMine"));
 
+            services.AddTransient<DataAccessService, DataAccessService>(serviceProvider =>
+            {
+                return new DataAccessService(connectionStrings);
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MBM.WebAPI", Version = "v1" });
             });
+
+            // Register repositories for dependency injection
+            services.AddSingleton<IStockRepository, StockRepository>();
         }
 
 

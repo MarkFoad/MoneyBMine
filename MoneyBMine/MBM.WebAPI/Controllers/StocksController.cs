@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MBM.DL.Data;
 using MBM.DL.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,8 +14,9 @@ namespace MBM.WebAPI.Controllers
     /// <summary>
     /// The Stock Controller
     /// </summary>
+    [Produces("application/json")]
     [Route("api/[controller]")]
-    [ApiController]
+   // [ApiController]
     public class StocksController : ControllerBase
     {
         private readonly IStockRepository stockRepository;
@@ -22,7 +24,7 @@ namespace MBM.WebAPI.Controllers
         /// Initializes an instance of the Stock Controller
         /// </summary>
         /// <param name="stockRepository"></param>
-        public StocksController(IStockRepository stockRepository)
+        public StocksController(IStockRepository stockRepository,ILogger<Stock> logger)
         {
             this.stockRepository = stockRepository;
         }
@@ -33,7 +35,7 @@ namespace MBM.WebAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IEnumerable<Stock>> Get()
+        public async Task<List<Stock>> Get()
         {
             return await stockRepository.GetAll();
         }
@@ -45,7 +47,7 @@ namespace MBM.WebAPI.Controllers
         [HttpGet("GetDates")]
         public async Task<List<string>> GetDates()
         {
-            return await stockRepository.GetDate();
+            return  await stockRepository.GetDate();
         }
         // // GET: api/Stocks/5
         // [HttpGet("{id}", Name = "Get")]
